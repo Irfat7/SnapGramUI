@@ -63,7 +63,7 @@ const SignUp = () => {
                                 }
                             })}
                         type="password" defaultValue='' name="password" id="password" />
-                    <p className="small-medium text-red">{passwordValidate(errors, watch('password'))}</p>
+                    <p className="small-medium text-red">{passwordValidate(errors)}</p>
                 </div>
 
                 <Button className="base-semibold bg-primary-500 w-full hover:bg-white hover:text-black" type="submit">Submit</Button>

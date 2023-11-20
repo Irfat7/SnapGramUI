@@ -4,12 +4,12 @@ import logo from '/images/logo.svg'
 
 const Form = () => {
     return (
-        <div className='h-screen md:flex md:justify-between'>
-            <div className='m-auto text-center w-1/4'>
-                <img className='mx-auto mb-8' src={logo} alt="Snapgram logo" />
+        <div className='md:h-screen md:flex md:justify-between bg-black bg-opacity-70'>
+            <div className='h-screen px-3 py-8 m-auto text-center md:h-auto md:p-0 md:w-1/4'>
+                <img className='mx-auto mb-4' src={logo} alt="Snapgram logo" />
                 <Outlet />
             </div>
-            <img className='w-1/2 object-cover' src={sideImg} alt="Side Image" />
+            <img className='fixed -z-10 md:z-0 top-0 h-screen md:static md:w-1/2 object-cover' src={sideImg} alt="Side Image" />
         </div>
     );
 };

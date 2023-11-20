@@ -12,7 +12,7 @@ export const nameValidate = (errors) => {
     return ''
 }
 
-export const passwordValidate = (errors, value) => {
+export const passwordValidate = (errors) => {
     if (errors.password?.type === "required") {
         return "Password is required"
     }
