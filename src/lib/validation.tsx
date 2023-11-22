@@ -17,7 +17,7 @@ export const passwordValidate = (errors) => {
         return "Password is required"
     }
     if (errors.password?.type === "validate") {
-        return "Minimum length of 6 with alphanumeric"
+        return "Minimum length of 8 with alphanumeric"
     }
     
 }

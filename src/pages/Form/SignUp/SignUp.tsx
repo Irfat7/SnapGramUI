@@ -1,17 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { createUserAccount } from "@/lib/appwrite/api"
 import { nameValidate, passwordValidate } from "@/lib/validation"
+import { INewUser } from "@/types"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { Link } from "react-router-dom"
-
-type SignUpInputs = {
-    name: string,
-    userName: string,
-    email: string,
-    password: string
-}
-
 
 const SignUp = () => {
     const {
@@ -19,9 +13,11 @@ const SignUp = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<SignUpInputs>()
+    } = useForm<INewUser>()
 
-    const onSubmit: SubmitHandler<SignUpInputs> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<INewUser> = (data) => {
+        createUserAccount(data)
+    }
 
     return (
         <div>
@@ -54,11 +50,11 @@ const SignUp = () => {
                                 required: true,
                                 validate: (value) => {
                                     //regex for at least alphanumeric 6 digits
-                                    const regex = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
+                                    const regex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
                                     if (regex.test(value)) {
                                         return true
                                     } else {
-                                        return 'Minimum length of 6 with alphanumeric'
+                                        return false
                                     }
                                 }
                             })}
