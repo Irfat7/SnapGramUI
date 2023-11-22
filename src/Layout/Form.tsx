@@ -1,8 +1,25 @@
 import { Outlet } from 'react-router-dom'
 import sideImg from '/images/side-img.svg'
 import logo from '/images/logo.svg'
+import { useContext, useEffect, } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '@/Context/AuthProvider'
 
 const Form = () => {
+    const navigate = useNavigate()
+    const { checkAuthUser } = useContext(AuthContext)
+
+    useEffect(() => {
+        (async () => {
+            if (
+                localStorage.getItem('cookieFallBack') !== '[]' ||
+                localStorage.getItem('cookieFallBack') !== null
+            ) {
+                await checkAuthUser() && navigate('/home')
+            }
+        })()
+    }, [])
+
     return (
         <div className='md:h-screen md:flex md:justify-between bg-black bg-opacity-70'>
             <div className='h-screen px-3 py-8 m-auto text-center md:h-auto md:p-0 md:w-1/4'>

@@ -1,22 +1,68 @@
+import { AuthContext } from "@/Context/AuthProvider"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { createUserAccount } from "@/lib/appwrite/api"
+import { useToast } from "@/components/ui/use-toast"
+import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutation"
 import { nameValidate, passwordValidate } from "@/lib/validation"
 import { INewUser } from "@/types"
+import { Loader2 } from "lucide-react"
+import { useContext } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const SignUp = () => {
     const {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
     } = useForm<INewUser>()
 
-    const onSubmit: SubmitHandler<INewUser> = (data) => {
-        createUserAccount(data)
+    const { toast } = useToast()
+    const { user, isLoading: isUserLoading, checkAuthUser } = useContext(AuthContext)
+    const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount()
+    const { mutateAsync: signInUser, isLoading: isSigningIn } = useSignInAccount()
+    const navigate = useNavigate()
+
+    const onSubmit: SubmitHandler<INewUser> = async (data) => {
+        const newUser = await createUserAccount(data)
+
+        if (!newUser) {
+            toast({
+                title: "Something went wrong! try again later",
+                className: 'bg-rose-600'
+            })
+            return
+        }
+
+        reset()
+        //create a session
+        const session = await signInUser({
+            email: data.email,
+            password: data.password
+        })
+
+        if (!session) {
+            return toast({
+                title: "Sign in failed! no session found! please try again",
+                className: 'bg-rose-600'
+            })
+        }
+
+        const loggedIn = await checkAuthUser()
+
+        if (loggedIn) {
+            navigate('/home')
+        }
+        else {
+            return toast({
+                title: "Sign in failed! checkAuthUser error! please try again",
+                className: 'bg-rose-600'
+            })
+        }
+
     }
 
     return (
@@ -62,7 +108,10 @@ const SignUp = () => {
                     <p className="small-medium text-red">{passwordValidate(errors)}</p>
                 </div>
 
-                <Button className="base-semibold bg-primary-500 w-full hover:bg-white hover:text-black" type="submit">Submit</Button>
+                <Button disabled={isUserLoading} className="base-semibold bg-primary-500 w-full hover:bg-white hover:text-black" type="submit">
+                    {isUserLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Sign-up
+                </Button>
             </form>
             <p>Already have an account? <Link to='/sign-in' className="underline text-primary-500">Login</Link></p>
         </div>
