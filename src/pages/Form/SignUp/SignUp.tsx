@@ -22,8 +22,8 @@ const SignUp = () => {
 
     const { toast } = useToast()
     const { user, isLoading: isUserLoading, checkAuthUser } = useContext(AuthContext)
-    const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateUserAccount()
-    const { mutateAsync: signInUser, isLoading: isSigningIn } = useSignInAccount()
+    const { mutateAsync: createUserAccount, isPending: isCreatingUser } = useCreateUserAccount()
+    const { mutateAsync: signInUser, isPending: isSigningIn } = useSignInAccount()
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<INewUser> = async (data) => {

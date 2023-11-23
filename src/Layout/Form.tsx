@@ -12,10 +12,10 @@ const Form = () => {
     useEffect(() => {
         (async () => {
             if (
-                localStorage.getItem('cookieFallBack') !== '[]' ||
-                localStorage.getItem('cookieFallBack') !== null
+                localStorage.getItem('cookieFallBack') === '[]' &&
+                localStorage.getItem('cookieFallBack') === null
             ) {
-                await checkAuthUser() && navigate('/home')
+                await checkAuthUser() && navigate('/sign-up')
             }
         })()
     }, [])

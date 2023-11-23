@@ -4,13 +4,14 @@ import { Navigate } from 'react-router-dom';
 
 const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
     const { authenticated, isLoading } = useContext(AuthContext)
-    console.log(isLoading, authenticated)
     if (isLoading) {
         return <p>Loading</p>
     }
     else if (authenticated) {
         return children
     }
+
+    console.log('redirecting to sign up')
     return <Navigate to='/sign-up' />
 };
 
