@@ -18,14 +18,14 @@ const SignIn = () => {
         formState: { errors },
     } = useForm<INewUser>()
     const { mutateAsync: signInUser, isPending: isSigningIn } = useSignInAccount()
-    const { isLoading, checkAuthUser } = useContext(AuthContext)
+    const { isLoading, setAuthenticated } = useContext(AuthContext)
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<INewUser> = async (data) => {
         const currentUser = await signInUser(data)
         if(currentUser){
-            await checkAuthUser()
-            navigate('/home')
+            setAuthenticated(true)
+            navigate('/')
         }
     }
 
@@ -53,7 +53,7 @@ const SignIn = () => {
                     Sign in
                 </Button>
             </form>
-            <p>New to snapgram? <Link to='/sign-up' className="underline text-primary-500">Sign up</Link></p>
+            <p>New to snapgram? <Link to='/form/sign-up' className="underline text-primary-500">Sign up</Link></p>
         </div>
     );
 };

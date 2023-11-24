@@ -1,6 +1,6 @@
 import router from './Routes/router';
 import './global.css'
-import { RouterProvider } from "react-router-dom";
+import { Router, RouterProvider } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster"
 import {
     QueryClient,

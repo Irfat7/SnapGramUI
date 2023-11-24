@@ -2,12 +2,13 @@ import { createBrowserRouter } from "react-router-dom";
 import Form from "../Layout/Form";
 import SignIn from "../pages/Form/SignIn/SignIn";
 import SignUp from "../pages/Form/SignUp/SignUp";
-import Welcome from "@/pages/Main/Welcome";
 import ProtectedRoutes from "./ProtectedRoutes";
+import Main from "@/Layout/Main";
+import Home from "@/pages/Main/Home/Home";
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: '/form',
         element: <Form />,
         children: [
             {
@@ -18,15 +19,33 @@ const router = createBrowserRouter([
                 path: 'sign-up',
                 element: <SignUp />
             },
-            {
-                path: 'sign-in',
-                element: <SignIn />
-            }
         ]
     },
     {
-        path: '/home',
-        element: <ProtectedRoutes><Welcome></Welcome></ProtectedRoutes>
+        path: '/',
+        element: <ProtectedRoutes><Main></Main></ProtectedRoutes>,
+        children: [
+            {
+                path: '',
+                element: <Home />
+            },
+            {
+                path: 'explore',
+                element: <Home />
+            },
+            {
+                path: 'all-users',
+                element: <Home />
+            },
+            {
+                path: 'saved',
+                element: <Home />
+            },
+            {
+                path: 'create-post',
+                element: <Home />
+            },
+        ]
     },
     {
         path: '*',

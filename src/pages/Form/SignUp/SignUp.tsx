@@ -54,7 +54,7 @@ const SignUp = () => {
         const loggedIn = await checkAuthUser()
 
         if (loggedIn) {
-            navigate('/home')
+            navigate('/')
         }
         else {
             return toast({
@@ -113,7 +113,7 @@ const SignUp = () => {
                     Sign-up
                 </Button>
             </form>
-            <p>Already have an account? <Link to='/sign-in' className="underline text-primary-500">Login</Link></p>
+            <p>Already have an account? <Link to='/form' className="underline text-primary-500">Login</Link></p>
         </div>
     );
 };

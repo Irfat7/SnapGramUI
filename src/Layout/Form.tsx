@@ -7,18 +7,13 @@ import { AuthContext } from '@/Context/AuthProvider'
 
 const Form = () => {
     const navigate = useNavigate()
-    const { checkAuthUser } = useContext(AuthContext)
+    const { checkAuthUser, authenticated, isLoading } = useContext(AuthContext)
 
     useEffect(() => {
-        (async () => {
-            if (
-                localStorage.getItem('cookieFallBack') === '[]' &&
-                localStorage.getItem('cookieFallBack') === null
-            ) {
-                await checkAuthUser() && navigate('/sign-up')
-            }
-        })()
-    }, [])
+        if(!isLoading && authenticated){
+            navigate('/')
+        }
+    }, [isLoading])
 
     return (
         <div className='md:h-screen md:flex md:justify-between bg-black bg-opacity-70'>

@@ -12,7 +12,7 @@ const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
     }
 
     console.log('redirecting to sign up')
-    return <Navigate to='/sign-up' />
+    return <Navigate to='/form' />
 };
 
 export default ProtectedRoutes;
