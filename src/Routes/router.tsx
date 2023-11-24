@@ -5,6 +5,7 @@ import SignUp from "../pages/Form/SignUp/SignUp";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Main from "@/Layout/Main";
 import Home from "@/pages/Main/Home/Home";
+import User from "@/pages/Main/User/User";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
                 path: 'create-post',
                 element: <Home />
             },
+            {
+                path: '/user/:id',
+                element: <User/>
+            }
         ]
     },
     {

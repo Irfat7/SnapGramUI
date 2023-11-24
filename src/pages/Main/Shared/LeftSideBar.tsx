@@ -22,17 +22,17 @@ const LeftSideBar = () => {
     }, [signOutComplete])
 
     return (
-        <div className='sticky h-screen w-1/4 bg-dark-2 space-y-8 px-10 py-8'>
+        <div className='hidden md:block sticky h-screen w-1/4 bg-dark-2 space-y-8 px-10 py-8'>
             <img src={logo} width={130} height={325} alt="snapgram logo" />
 
 
-            <div className='flex items-center gap-2'>
+            <Link to={`/user/${user.id}`} className='flex items-center gap-2'>
                 <img src={user.imageURL} className='w-14 h-14 rounded-full' alt="user profile image" />
-                <Link to={`/user/${user.id}`} className='h-12'>
+                <div className='h-12'>
                     <p className='body-bold'>{user.name}</p>
                     <p className='small-regular text-light-3'>{user.userName}</p>
-                </Link>
-            </div>
+                </div>
+            </Link>
 
             <ul className='space-y-3'>
                 {

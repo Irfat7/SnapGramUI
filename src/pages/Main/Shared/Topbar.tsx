@@ -9,16 +9,17 @@ import { IoLogOut } from "react-icons/io5";
 const Topbar = () => {
     const { mutateAsync: signOut, isSuccess: signOutComplete } = useSignOutAccount()
     const navigate = useNavigate()
-    const { user,checkAuthUser } = useContext(AuthContext)
+    const { user, setAuthenticated } = useContext(AuthContext)
 
     useEffect(() => {
         if (signOutComplete) {
-            navigate('/sign-in')
+            setAuthenticated(false)
+            navigate('/form')
         }
     }, [signOutComplete])
 
     return (
-        <div className='md:hidden flex justify-between items-center'>
+        <div className='p-3 md:hidden flex justify-between items-center'>
             <Link to={'/home'}><img src={logo} width={130} height={325} alt="snapgram logo" /></Link>
             <div className='flex items-center gap-3'>
                 <Button onClick={() => signOut()} className='bg-transparent p-0'>
