@@ -29,11 +29,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<IUser>(initialUser)
     const [isLoading, setIsLoading] = useState(true)
     const [authenticated, setAuthenticated] = useState(false)
-    //const navigate = useNavigate()
 
     useEffect(() => {
         checkAuthUser()
-    }, [])
+    }, [authenticated])
 
     const checkAuthUser = async (): Promise<boolean> => {
         try {

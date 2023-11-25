@@ -1,3 +1,6 @@
+import { File } from "buffer";
+import { type } from "os";
+
 export type INewUser = {
     name: string;
     email: string;
@@ -22,4 +25,9 @@ export type IContext = {
     authenticated: boolean,
     setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
     checkAuthUser: () => Promise<boolean>,
+}
+
+export type IPost = {
+    caption: string;
+    image: File;
 }

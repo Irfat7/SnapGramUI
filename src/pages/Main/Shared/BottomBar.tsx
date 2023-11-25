@@ -1,6 +1,4 @@
-import { Button } from '@/components/ui/button';
 import { sidebarLinks } from '@/constatnts';
-import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 const BottomBar = () => {

@@ -16,17 +16,17 @@ const LeftSideBar = () => {
     useEffect(() => {
         if (signOutComplete) {
             setAuthenticated(false)
-            console.log('signed out')
             navigate('/form')
         }
     }, [signOutComplete])
+    console.log(user)
 
     return (
         <div className='hidden md:block sticky h-screen w-1/4 bg-dark-2 space-y-8 px-10 py-8'>
             <img src={logo} width={130} height={325} alt="snapgram logo" />
 
 
-            <Link to={`/user/${user.id}`} className='flex items-center gap-2'>
+            <Link to={`/profile/${user.id}`} className='flex items-center gap-2'>
                 <img src={user.imageURL} className='w-14 h-14 rounded-full' alt="user profile image" />
                 <div className='h-12'>
                     <p className='body-bold'>{user.name}</p>
