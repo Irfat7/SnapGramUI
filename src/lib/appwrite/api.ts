@@ -1,6 +1,7 @@
 import { INewUser } from "@/types";
-import { account, appwriteConfig, avatar, database } from "./config";
+import { account, appwriteConfig, avatar, database, storage } from "./config";
 import { ID, Query } from "appwrite";
+import { error } from "console";
 
 export const saveUserToDB = async (user: {
     accountID: string;
@@ -88,6 +89,86 @@ export const signOutAccount = async () => {
         else {
             return false
         }
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+const uploadImage = async (file: File) => {
+    try {
+        const uploadImage = await storage.createFile(appwriteConfig.storageID, ID.unique(), file)
+
+        if (!uploadImage) throw Error
+
+        return uploadImage
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+const deleteImage = async (id: string) => {
+    try {
+        const deletedImage = await storage.deleteFile(appwriteConfig.storageID, id)
+        if (!deletedImage) throw Error
+        return deleteImage
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+const getFilePreview = (id: string) => {
+    try {
+        const fileURL = storage.getFilePreview(appwriteConfig.storageID, id)
+
+        if (!fileURL) throw Error
+
+        return fileURL
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const createPost = async (post: { userID: string, caption: string, tags: string, file: File[] }) => {
+    try {
+        //image upload
+        const uploadedImage = await uploadImage(post.file[0])
+
+        if (!uploadedImage) throw Error
+
+        const fileURL = getFilePreview(uploadedImage.$id)
+
+        if (!fileURL) {
+            await deleteImage(uploadedImage.$id)
+            throw Error
+        }
+
+        //tag separate
+        const tags = post.tags.split(',').map((item: string) => item.trim());
+
+
+        const newPost = await database.createDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
+            ID.unique(),
+            {
+                creator: post.userID,
+                caption: post.caption,
+                imageURL: fileURL,
+                imageID: uploadedImage.$id,
+                tags: tags,
+            }
+        );
+
+        if (!newPost) {
+            await deleteImage(uploadedImage.$id)
+            throw Error
+        }
+
+        return newPost
     }
     catch (error) {
         console.log(error)

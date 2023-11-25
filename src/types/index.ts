@@ -29,5 +29,5 @@ export type IContext = {
 
 export type IPost = {
     caption: string;
-    image: File;
+    tags: string;
 }

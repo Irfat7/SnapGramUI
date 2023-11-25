@@ -19,7 +19,6 @@ const LeftSideBar = () => {
             navigate('/form')
         }
     }, [signOutComplete])
-    console.log(user)
 
     return (
         <div className='hidden md:block sticky h-screen w-1/4 bg-dark-2 space-y-8 px-10 py-8'>
