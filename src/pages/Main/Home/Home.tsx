@@ -2,6 +2,7 @@ import { useGetAllPosts, useGetRecentPosts } from '@/lib/react-query/queriesAndM
 import { Loader2 } from 'lucide-react';
 import homeSvg from '/icons/home.svg'
 import Title from '../Shared/Title';
+import PostCard from './PostCard/PostCard';
 
 const Home = () => {
     const { data: posts, isPending: isPostLoading, isError: isErrorPost } = useGetRecentPosts()
@@ -15,10 +16,11 @@ const Home = () => {
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     </> :
                     <>
-                        {console.log(posts?.documents)}
+                        {
+                            posts?.documents.map(post => <PostCard key={post.$id} post={post} />)
+                        }
                     </>
             }
-
         </div>
     );
 };

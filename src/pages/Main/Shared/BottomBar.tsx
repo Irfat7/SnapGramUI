@@ -5,7 +5,7 @@ const BottomBar = () => {
     const {pathname} = useLocation()
 
     return (
-        <div className='fixed w-full bottom-0 md:hidden'>
+        <div className='fixed bg-dark-1 w-full bottom-0 md:hidden'>
             <ul className='flex justify-between gap-5'>
                 {
                     sidebarLinks.map((link, index) => {

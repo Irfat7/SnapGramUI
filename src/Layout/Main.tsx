@@ -12,7 +12,7 @@ const Main = () => {
             <Topbar />
             <div className='flex'>
                 <LeftSideBar />
-                <div className='md:w-1/2 px-3 md:p-8'>
+                <div className='md:w-1/2 px-3 mb-14 md:p-8'>
                     <Outlet />
                 </div>
             </div>
