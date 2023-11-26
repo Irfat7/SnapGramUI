@@ -4,8 +4,9 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, signInAccount, signOutAccount, signOutUser } from '../appwrite/api'
+import { createPost, createUserAccount, getRecentPosts, signInAccount, signOutAccount } from '../appwrite/api'
 import { INewUser } from '@/types'
+import { QUERY_KEYS } from './keys'
 
 export const useCreateUserAccount = () => {
     return useMutation({
@@ -26,12 +27,24 @@ export const useSignOutAccount = () => {
 }
 
 export const useCreateNewPost = () => {
+    const queryClient = useQueryClient()
+
     return useMutation({
         mutationFn: async (post: {
             userID: string,
             caption: string,
             tags: string,
             file: File[]
-        }) => createPost(post)
+        }) => createPost(post),
+        onSuccess: () => queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_RECENT_POSTS]
+        })
+    })
+}
+
+export const useGetRecentPosts = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+        queryFn: getRecentPosts
     })
 }

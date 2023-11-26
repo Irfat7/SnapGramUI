@@ -146,6 +146,8 @@ export const createPost = async (post: { userID: string, caption: string, tags: 
             throw Error
         }
 
+        console.log(fileURL)
+
         //tag separate
         const tags = post.tags.split(',').map((item: string) => item.trim());
 
@@ -169,6 +171,21 @@ export const createPost = async (post: { userID: string, caption: string, tags: 
         }
 
         return newPost
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export const getRecentPosts = async () => {
+    try {
+        const allPost = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
+            [Query.orderDesc('$createdAt'), Query.limit(20)])
+
+        if (!allPost) throw Error
+        return allPost
     }
     catch (error) {
         console.log(error)
