@@ -192,9 +192,24 @@ export const getRecentPosts = async () => {
     }
 }
 
+export const getSpecificPost = async (id: string) => {
+    try {
+        const specificPost = await database.getDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
+            id);
+
+        if (!specificPost) throw Error
+        
+        return specificPost
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const likePost = async (postID: string, likesArray: string[]) => {
     try {
-        const updatedDoc = database.updateDocument(
+        const updatedDoc = await database.updateDocument(
             appwriteConfig.databaseID,
             appwriteConfig.postsCollectionID,
             postID,
@@ -204,7 +219,7 @@ export const likePost = async (postID: string, likesArray: string[]) => {
         );
         if (!updatedDoc) throw Error
 
-        return updatedDoc
+        return updatedDoc.likes
 
     } catch (error) {
         console.log(error)

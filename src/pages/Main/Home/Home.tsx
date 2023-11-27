@@ -17,7 +17,7 @@ const Home = () => {
                     </> :
                     <>
                         {
-                            posts?.documents.map(post => <PostCard key={post.$id} post={post} />)
+                            posts?.documents?.map(post => <PostCard key={post.$id} post={post} />)
                         }
                     </>
             }

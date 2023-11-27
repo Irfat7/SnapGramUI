@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import likeSVG from '/icons/like.svg'
-import likedSVG from '/icons/like.svg'
+import likedSVG from '/icons/liked.svg'
 import saveSVG from '/icons/save.svg'
-import savedSVG from '/icons/save.svg'
+import savedSVG from '/icons/saved.svg'
 import { useContext, useState } from "react";
 import { Models } from "appwrite";
 import { formatDateAgo } from "@/utils";
@@ -16,24 +16,26 @@ type PostProps = {
 const PostCard = ({ post }: PostProps) => {
     const { creator, caption, imageURL, tags, likes } = post
     const [modCaption, setModCaption] = useState(caption.length > 120 ? caption?.slice(0, 100) : caption)
-    const { mutate: likePost } = useLikePost()
-    const [ likeCount, setLikeCount ] = useState(likes.length || 0)
+    const { mutateAsync: likePost } = useLikePost()
     const { user } = useContext(AuthContext)
+    const [likeCount, setLikeCount] = useState(likes.length)
+    const [allLikes] = useState(likes?.map((like: Models.Document) => like.$id))
+    const [hasLiked, setHasLiked] = useState(allLikes?.includes(user.id))
 
-    console.log(likes)
+    const handleAction = async () => {
+        let newLikes = [...allLikes]
 
-    const handleAction = async() => {
-        const hasLiked = likes?.find((like: Models.Document) => like?.$id === user.id)
-
-        let newLikes = [...likes]
-
+        setHasLiked(!hasLiked)
         if (hasLiked) {
-            newLikes = newLikes?.filter((like: Models.Document) => like?.$id !== user.id)
+            newLikes = newLikes.filter((like: string) => like !== user.id)
+            setLikeCount(likeCount - 1)
         }
         else {
             newLikes = [...newLikes, user.id]
+            setLikeCount(likeCount + 1)
         }
-        likePost({ postID: post?.$id, likesArray: newLikes })
+        const updateLikedList = await likePost({ postID: post?.$id, likesArray: newLikes })
+        setLikeCount(updateLikedList.length)
     }
 
     return (
@@ -52,7 +54,7 @@ const PostCard = ({ post }: PostProps) => {
             <p>{
                 <span>
                     {modCaption} <span
-                        hidden={modCaption.length > 120}
+                        hidden={caption.length < 120 || modCaption.length > 100}
                         onClick={() => setModCaption(caption)}
                         className="underline text-blue-400 cursor-pointer">
                         see more
@@ -72,7 +74,7 @@ const PostCard = ({ post }: PostProps) => {
             <div className="flex justify-between">
                 <div className="flex gap-2">
                     <img
-                        src={likeSVG}
+                        src={hasLiked ? likedSVG : likeSVG}
                         alt="like-svg"
                         className="cursor-pointer"
                         onClick={handleAction}

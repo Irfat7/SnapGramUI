@@ -55,11 +55,25 @@ export const useLikePost = () => {
 
     return useMutation({
         mutationFn: async ({ postID, likesArray }: { postID: string, likesArray: string[] }) => likePost(postID, likesArray),
-        onSuccess: (data) => queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
-        })
+        onSuccess: (data, { postID }) => {
+            const queryData = queryClient.getQueryData([QUERY_KEYS.GET_RECENT_POSTS])
+
+            if (queryData && queryData.documents && Array.isArray(queryData.documents)) {
+                const updatedDocuments = queryData.documents.map((item) => {
+                    if (item.$id === postID) {
+                        return { ...item, likes: data };
+                    }
+                    return item;
+                });
+
+                const updatedQueryData = { ...queryData, documents: updatedDocuments };
+                queryClient.setQueryData([QUERY_KEYS.GET_RECENT_POSTS], updatedQueryData);
+            }
+        }
+
     })
 }
+
 
 export const useSavePost = () => {
     const queryClient = useQueryClient()
