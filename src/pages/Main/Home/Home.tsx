@@ -1,4 +1,4 @@
-import { useGetAllPosts, useGetRecentPosts } from '@/lib/react-query/queriesAndMutation';
+import { useGetRecentPosts } from '@/lib/react-query/queriesAndMutation';
 import { Loader2 } from 'lucide-react';
 import homeSvg from '/icons/home.svg'
 import Title from '../Shared/Title';

@@ -1,7 +1,6 @@
 import { INewUser } from "@/types";
 import { account, appwriteConfig, avatar, database, storage } from "./config";
 import { ID, Query } from "appwrite";
-import { error } from "console";
 
 export const saveUserToDB = async (user: {
     accountID: string;
@@ -200,7 +199,7 @@ export const getSpecificPost = async (id: string) => {
             id);
 
         if (!specificPost) throw Error
-        
+
         return specificPost
     } catch (error) {
         console.log(error)
@@ -228,7 +227,7 @@ export const likePost = async (postID: string, likesArray: string[]) => {
 
 export const savePost = async (userID: string, postID: string) => {
     try {
-        const newSave = database.createDocument(
+        const newSave = await database.createDocument(
             appwriteConfig.databaseID,
             appwriteConfig.savesCollectionID,
             ID.unique(),
@@ -240,6 +239,24 @@ export const savePost = async (userID: string, postID: string) => {
         if (!newSave) throw Error
 
         return newSave
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getSavePost = async (userID: string) => {
+    try {
+        const savedPost = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.savesCollectionID,
+            [
+                Query.equal('user', userID)
+            ])
+
+        if (!savedPost) throw Error
+
+        return savedPost
 
     } catch (error) {
         console.log(error)
