@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, getRecentPosts, getSavePost, likePost, signInAccount, signOutAccount } from '../appwrite/api'
+import { createPost, createUserAccount, getRecentPosts, getSavePost, likePost, savePost, signInAccount, signOutAccount } from '../appwrite/api'
 import { INewUser } from '@/types'
 import { QUERY_KEYS } from './keys'
 
@@ -49,7 +49,6 @@ export const useGetRecentPosts = () => {
     })
 }
 
-//fix here
 export const useLikePost = () => {
     const queryClient = useQueryClient()
 
@@ -79,7 +78,7 @@ export const useSavePost = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: async ({ userID, postID }: { userID: string, postID: string }) => likePost(userID, postID),
+        mutationFn: async ({ userID, postID }: { userID: string, postID: string }) => savePost(userID, postID),
     })
 }
 

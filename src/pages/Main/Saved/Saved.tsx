@@ -9,7 +9,6 @@ const Saved = () => {
     if (isSaveLoading) {
         return <p>loading</p>
     }
-    console.log(savedPost)
 
     return (
         <div>

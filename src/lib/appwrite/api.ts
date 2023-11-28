@@ -227,6 +227,7 @@ export const likePost = async (postID: string, likesArray: string[]) => {
 
 export const savePost = async (userID: string, postID: string) => {
     try {
+        console.log(123)
         const newSave = await database.createDocument(
             appwriteConfig.databaseID,
             appwriteConfig.savesCollectionID,

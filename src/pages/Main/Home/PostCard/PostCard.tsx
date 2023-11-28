@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import { Models } from "appwrite";
 import { formatDateAgo } from "@/utils";
 import { AuthContext } from "@/Context/AuthProvider";
-import { useLikePost } from "@/lib/react-query/queriesAndMutation";
+import { useGetSavePost, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutation";
 
 type PostProps = {
     post: Models.Document
@@ -21,6 +21,13 @@ const PostCard = ({ post }: PostProps) => {
     const [likeCount, setLikeCount] = useState(likes.length)
     const [allLikes] = useState(likes?.map((like: Models.Document) => like.$id))
     const [hasLiked, setHasLiked] = useState(allLikes?.includes(user.id))
+
+    const { mutateAsync: savePost } = useSavePost()
+    const { data: savedPost, isLoading: isFetchingSave } = useGetSavePost(user.id)
+
+    if(isFetchingSave){
+        return <p>loading</p>
+    }
 
     const handleAction = async () => {
         let newLikes = [...allLikes]
@@ -36,6 +43,13 @@ const PostCard = ({ post }: PostProps) => {
         }
         const updateLikedList = await likePost({ postID: post?.$id, likesArray: newLikes })
         setLikeCount(updateLikedList.length)
+    }
+
+    const allSavedPostID = savedPost?.documents?.map((save:Models.Document) => save?.post?.$id)
+    const hasSaved = allSavedPostID?.includes(post.$id)
+
+    const handleSavePost = async () => {
+        savePost({ userID: user.id, postID: post.$id })
     }
 
     return (
@@ -83,10 +97,10 @@ const PostCard = ({ post }: PostProps) => {
                 </div>
                 <div>
                     <img
-                        src={saveSVG}
+                        src={hasSaved ? savedSVG : saveSVG}
                         alt="save-svg"
                         className="cursor-pointer"
-                        onClick={() => { }}
+                        onClick={handleSavePost}
                     />
                 </div>
             </div>
