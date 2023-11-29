@@ -67,6 +67,7 @@ export const useLikePost = () => {
 
                 const updatedQueryData = { ...queryData, documents: updatedDocuments };
                 queryClient.setQueryData([QUERY_KEYS.GET_RECENT_POSTS], updatedQueryData);
+                console.log('kam sesh')
             }
         }
 

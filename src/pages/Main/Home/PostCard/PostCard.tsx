@@ -18,19 +18,24 @@ type PostProps = {
 const PostCard = ({ post, savedPost }: PostProps) => {
     const { creator, caption, imageURL, tags, likes } = post
     const [modCaption, setModCaption] = useState(caption.length > 120 ? caption?.slice(0, 100) : caption)
-    const { mutateAsync: likePost } = useLikePost()
+    const { mutateAsync: likePost, isPending: isLikingPost } = useLikePost()
     const { user } = useContext(AuthContext)
     const [likeCount, setLikeCount] = useState(likes.length)
     const [userLiked, allLikeUserID] = useHasLiked(likes)
     const [hasLiked, setHasLiked] = useState(userLiked)
 
-    const { mutateAsync: deleteSavePost } = useDeleteSavePost()
-    const { mutateAsync: savePost } = useSavePost()
+    const { mutateAsync: deleteSavePost, isPending: isDeletingPost } = useDeleteSavePost()
+    const { mutateAsync: savePost, isPending: isSavingPost } = useSavePost()
     const [isSavedObj, setIsSavedObj] = useState(savedPost?.documents?.find((save: Models.Document) => post.$id === save?.post.$id))
     const [hasSaved, setHasSaved] = useState(!!isSavedObj)
 
+    //like or unlike post
     const handleAction = async () => {
         let newLikes = [...allLikeUserID]
+
+        if(isLikingPost){
+            return
+        }
 
         if (hasLiked) {
             newLikes = newLikes.filter((like: string) => like !== user.id)
@@ -47,6 +52,10 @@ const PostCard = ({ post, savedPost }: PostProps) => {
     }
 
     const handleSavePost = async () => {
+        if(isSavingPost || isDeletingPost){
+            return
+        }
+        
         if (hasSaved) {
             setHasSaved(false)
             const res = await deleteSavePost(isSavedObj.$id)
