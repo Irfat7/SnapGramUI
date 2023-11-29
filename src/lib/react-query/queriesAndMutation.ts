@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, getRecentPosts, getSavePost, likePost, savePost, signInAccount, signOutAccount } from '../appwrite/api'
+import { createPost, createUserAccount, deleteSavePost, getRecentPosts, getSavePost, likePost, savePost, signInAccount, signOutAccount } from '../appwrite/api'
 import { INewUser } from '@/types'
 import { QUERY_KEYS } from './keys'
 
@@ -73,18 +73,31 @@ export const useLikePost = () => {
     })
 }
 
+export const useGetSavePost = (userID: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_SAVE_POST],
+        queryFn: async () => getSavePost(userID),
+    })
+}
 
 export const useSavePost = () => {
     const queryClient = useQueryClient()
 
     return useMutation({
         mutationFn: async ({ userID, postID }: { userID: string, postID: string }) => savePost(userID, postID),
+        onSuccess: ()=>queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_SAVE_POST]
+        })
     })
 }
 
-export const useGetSavePost = (userID: string) => {
-    return useQuery({
-        queryKey: [QUERY_KEYS.GET_SAVE_POST, userID],
-        queryFn: async () => getSavePost(userID)
+export const useDeleteSavePost = () => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async (saveID: string) => deleteSavePost(saveID),
+        onSuccess: () => queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_SAVE_POST]
+        })
     })
 }

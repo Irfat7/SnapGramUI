@@ -3,36 +3,35 @@ import likeSVG from '/icons/like.svg'
 import likedSVG from '/icons/liked.svg'
 import saveSVG from '/icons/save.svg'
 import savedSVG from '/icons/saved.svg'
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Models } from "appwrite";
 import { formatDateAgo } from "@/utils";
 import { AuthContext } from "@/Context/AuthProvider";
-import { useGetSavePost, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutation";
+import { useDeleteSavePost, useGetSavePost, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutation";
+import useHasLiked from "@/hooks/useHasLiked";
 
 type PostProps = {
     post: Models.Document
+    savedPost: Models.Document
 }
 
-const PostCard = ({ post }: PostProps) => {
+const PostCard = ({ post, savedPost }: PostProps) => {
     const { creator, caption, imageURL, tags, likes } = post
     const [modCaption, setModCaption] = useState(caption.length > 120 ? caption?.slice(0, 100) : caption)
     const { mutateAsync: likePost } = useLikePost()
     const { user } = useContext(AuthContext)
     const [likeCount, setLikeCount] = useState(likes.length)
-    const [allLikes] = useState(likes?.map((like: Models.Document) => like.$id))
-    const [hasLiked, setHasLiked] = useState(allLikes?.includes(user.id))
+    const [userLiked, allLikeUserID] = useHasLiked(likes)
+    const [hasLiked, setHasLiked] = useState(userLiked)
 
+    const { mutateAsync: deleteSavePost } = useDeleteSavePost()
     const { mutateAsync: savePost } = useSavePost()
-    const { data: savedPost, isLoading: isFetchingSave } = useGetSavePost(user.id)
-
-    if(isFetchingSave){
-        return <p>loading</p>
-    }
+    const [isSavedObj, setIsSavedObj] = useState(savedPost?.documents?.find((save: Models.Document) => post.$id === save?.post.$id))
+    const [hasSaved, setHasSaved] = useState(!!isSavedObj)
 
     const handleAction = async () => {
-        let newLikes = [...allLikes]
+        let newLikes = [...allLikeUserID]
 
-        setHasLiked(!hasLiked)
         if (hasLiked) {
             newLikes = newLikes.filter((like: string) => like !== user.id)
             setLikeCount(likeCount - 1)
@@ -41,15 +40,31 @@ const PostCard = ({ post }: PostProps) => {
             newLikes = [...newLikes, user.id]
             setLikeCount(likeCount + 1)
         }
+        setHasLiked(!hasLiked)
+
         const updateLikedList = await likePost({ postID: post?.$id, likesArray: newLikes })
         setLikeCount(updateLikedList.length)
     }
 
-    const allSavedPostID = savedPost?.documents?.map((save:Models.Document) => save?.post?.$id)
-    const hasSaved = allSavedPostID?.includes(post.$id)
-
     const handleSavePost = async () => {
-        savePost({ userID: user.id, postID: post.$id })
+        if (hasSaved) {
+            setHasSaved(false)
+            const res = await deleteSavePost(isSavedObj.$id)
+            if (res?.status === 'ok') {
+                setIsSavedObj(undefined)
+                return
+            }
+            setHasSaved(true)
+        }
+        else {
+            setHasSaved(true)
+            const res = await savePost({ userID: user.id, postID: post.$id })
+            if (res) {
+                setIsSavedObj(res)
+                return
+            }
+            setHasSaved(false)
+        }
     }
 
     return (
