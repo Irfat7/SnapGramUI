@@ -3,12 +3,14 @@ import likeSVG from '/icons/like.svg'
 import likedSVG from '/icons/liked.svg'
 import saveSVG from '/icons/save.svg'
 import savedSVG from '/icons/saved.svg'
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { Models } from "appwrite";
 import { formatDateAgo } from "@/utils";
 import { AuthContext } from "@/Context/AuthProvider";
-import { useDeleteSavePost, useGetSavePost, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutation";
+import { useDeleteSavePost, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutation";
 import useHasLiked from "@/hooks/useHasLiked";
+import editSVG from '/icons/edit.svg'
+import EditPost from "../EditPost/EditPost";
 
 type PostProps = {
     post: Models.Document
@@ -33,7 +35,8 @@ const PostCard = ({ post, savedPost }: PostProps) => {
     const handleAction = async () => {
         let newLikes = [...allLikeUserID]
 
-        if(isLikingPost){
+        if (isLikingPost) {
+            console.log('abbey sale')
             return
         }
 
@@ -52,10 +55,10 @@ const PostCard = ({ post, savedPost }: PostProps) => {
     }
 
     const handleSavePost = async () => {
-        if(isSavingPost || isDeletingPost){
+        if (isSavingPost || isDeletingPost) {
             return
         }
-        
+
         if (hasSaved) {
             setHasSaved(false)
             const res = await deleteSavePost(isSavedObj.$id)
@@ -78,17 +81,20 @@ const PostCard = ({ post, savedPost }: PostProps) => {
 
     return (
         <div className="space-y-1 my-4 bg-dark-3 px-2 py-3 rounded-lg">
-            <Link to={`/profile/${creator?.$id}`} className='flex items-center gap-2'>
-                <img
-                    src={creator?.imageURL}
-                    className='w-10 h-10 rounded-full'
-                    alt="user profile image"
-                />
-                <div className='h-12'>
-                    <p className='base-medium lg:body-bold text-light-1'>{creator?.name}</p>
-                    <p className='subtle-semibold lg:small-regular small-regular flex-center gap-2 text-light-3'>{formatDateAgo(post?.$createdAt)}</p>
-                </div>
-            </Link>
+            <div className="flex justify-between items-center">
+                <Link to={`/profile/${creator?.$id}`} className='flex items-center gap-2'>
+                    <img
+                        src={creator?.imageURL}
+                        className='w-10 h-10 rounded-full'
+                        alt="user profile image"
+                    />
+                    <div className='h-12'>
+                        <p className='base-medium lg:body-bold text-light-1'>{creator?.name}</p>
+                        <p className='subtle-semibold lg:small-regular small-regular flex-center gap-2 text-light-3'>{formatDateAgo(post?.$createdAt)}</p>
+                    </div>
+                </Link>
+                <EditPost post={post} userID={user.id} />
+            </div>
             <p>{
                 <span>
                     {modCaption} <span

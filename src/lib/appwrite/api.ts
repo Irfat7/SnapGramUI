@@ -279,3 +279,58 @@ export const deleteSavePost = async (saveID: string) => {
         console.log(error)
     }
 }
+
+export const updatePost = async (post: {
+    postID: string,
+    imageID: string,
+    caption: string,
+    tags: string,
+    file: File[] | string | URL
+}) => {
+    try {
+        const tags = post.tags.split(',').map((item: string) => item.trim());
+
+        const toUpdatePost = {
+            caption: post.caption,
+            tags,
+            imageURL: post.file,
+            imageID: post.imageID
+        }
+
+        if (typeof post.file !== 'string') {
+            // create a new file and delete prev one from bucket
+            const uploadedImage = await uploadImage(post.file[0])
+
+            if (!uploadedImage) throw Error
+
+            const fileURL = getFilePreview(uploadedImage.$id)
+
+            if (!fileURL) {
+                await deleteImage(uploadedImage.$id)
+                throw Error
+            }
+            toUpdatePost.imageURL = fileURL
+            toUpdatePost.imageID = uploadedImage.$id
+
+        }
+
+        const updatedPost = database.updateDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
+            post.postID,
+            toUpdatePost
+        );
+
+        if (!updatedPost) {
+            toUpdatePost.imageID !== post.imageID && await deleteImage(toUpdatePost.imageID)
+            throw Error
+        }
+
+        toUpdatePost.imageID !== post.imageID && await deleteImage(post.imageID)
+
+        return updatedPost
+
+    } catch (error) {
+        console.log(error)
+    }
+}

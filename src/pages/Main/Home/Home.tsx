@@ -10,6 +10,7 @@ const Home = () => {
     const { data: posts, isPending: isPostLoading, isError: isErrorPost } = useGetRecentPosts()
     const {user} = useContext(AuthContext)
     const {data:savedPost, isLoading: isSavedPostLoading} = useGetSavePost(user.id)
+    
 
     return (
         <div>

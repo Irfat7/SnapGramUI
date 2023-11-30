@@ -6,7 +6,7 @@ const Create = () => {
     return (
         <div className='space-y-10'>
                 <Title svgSrc={addPost} title='Create Post' alt='Add post icon'/>
-                <PostForm/>
+                <PostForm post={null}/>
         </div>
     );
 };

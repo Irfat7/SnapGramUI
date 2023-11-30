@@ -4,9 +4,10 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, deleteSavePost, getRecentPosts, getSavePost, likePost, savePost, signInAccount, signOutAccount } from '../appwrite/api'
+import { createPost, createUserAccount, deleteSavePost, getRecentPosts, getSavePost, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
 import { INewUser } from '@/types'
 import { QUERY_KEYS } from './keys'
+import { Models } from 'appwrite'
 
 export const useCreateUserAccount = () => {
     return useMutation({
@@ -42,6 +43,18 @@ export const useCreateNewPost = () => {
     })
 }
 
+export const useUpdatePost = () => {
+    return useMutation({
+        mutationFn: async (post: {
+            postID: string,
+            imageID: string,
+            caption: string,
+            tags: string,
+            file: File[] | string
+        }) => updatePost(post)
+    })
+}
+
 export const useGetRecentPosts = () => {
     return useQuery({
         queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
@@ -55,10 +68,10 @@ export const useLikePost = () => {
     return useMutation({
         mutationFn: async ({ postID, likesArray }: { postID: string, likesArray: string[] }) => likePost(postID, likesArray),
         onSuccess: (data, { postID }) => {
-            const queryData = queryClient.getQueryData([QUERY_KEYS.GET_RECENT_POSTS])
+            const queryData = queryClient.getQueryData([QUERY_KEYS.GET_RECENT_POSTS]) as { documents?: Models.Document[] }
 
             if (queryData && queryData.documents && Array.isArray(queryData.documents)) {
-                const updatedDocuments = queryData.documents.map((item) => {
+                const updatedDocuments = queryData.documents.map((item: Models.Document) => {
                     if (item.$id === postID) {
                         return { ...item, likes: data };
                     }
@@ -67,7 +80,6 @@ export const useLikePost = () => {
 
                 const updatedQueryData = { ...queryData, documents: updatedDocuments };
                 queryClient.setQueryData([QUERY_KEYS.GET_RECENT_POSTS], updatedQueryData);
-                console.log('kam sesh')
             }
         }
 
@@ -86,7 +98,7 @@ export const useSavePost = () => {
 
     return useMutation({
         mutationFn: async ({ userID, postID }: { userID: string, postID: string }) => savePost(userID, postID),
-        onSuccess: ()=>queryClient.invalidateQueries({
+        onSuccess: () => queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.GET_SAVE_POST]
         })
     })
