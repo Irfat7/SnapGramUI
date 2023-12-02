@@ -176,6 +176,33 @@ export const createPost = async (post: { userID: string, caption: string, tags: 
     }
 }
 
+export const deletePost = async (postID: string) => {
+    try {
+        const post = await database.getDocument(
+            appwriteConfig.databaseID, 
+            appwriteConfig.postsCollectionID, 
+            postID);
+
+        if(!post) throw Error
+
+        const imageID = post.imageID
+
+        const deletedPost = await database.deleteDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
+            postID);
+
+        if (!deletedPost) throw Error
+
+        await deleteImage(imageID)
+
+        return deletePost
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getRecentPosts = async () => {
     try {
         const allPost = await database.listDocuments(
