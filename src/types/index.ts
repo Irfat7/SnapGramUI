@@ -1,6 +1,3 @@
-import { File } from "buffer";
-import { type } from "os";
-
 export type INewUser = {
     name: string;
     email: string;

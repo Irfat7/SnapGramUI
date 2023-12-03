@@ -3,11 +3,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@radix-ui/react-label';
 import FileUploader from './FileUploader';
-import { Loader2 } from 'lucide-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IPost } from '@/types';
 import { useState, useContext } from 'react'
-import { uploadImage } from '@/lib/appwrite/api';
 import { useCreateNewPost, useUpdatePost } from '@/lib/react-query/queriesAndMutation';
 import { AuthContext } from '@/Context/AuthProvider';
 import { useToast } from '@/components/ui/use-toast';
@@ -19,8 +17,6 @@ const PostForm = ({ post = null }: { post: Models.Document | null }) => {
     const {
         register,
         handleSubmit,
-        watch,
-        reset,
         formState: { errors },
     } = useForm<IPost>()
     const [file, setFile] = useState(post ? post.imageURL : [])

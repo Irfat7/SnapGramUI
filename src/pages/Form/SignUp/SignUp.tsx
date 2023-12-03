@@ -15,18 +15,21 @@ const SignUp = () => {
     const {
         register,
         handleSubmit,
-        watch,
         reset,
         formState: { errors },
     } = useForm<INewUser>()
 
     const { toast } = useToast()
-    const { user, isLoading: isUserLoading, checkAuthUser } = useContext(AuthContext)
+    const { isLoading: isUserLoading, checkAuthUser } = useContext(AuthContext)
     const { mutateAsync: createUserAccount, isPending: isCreatingUser } = useCreateUserAccount()
-    const { mutateAsync: signInUser, isPending: isSigningIn } = useSignInAccount()
+    const { mutateAsync: signInUser } = useSignInAccount()
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<INewUser> = async (data) => {
+        if (isCreatingUser) {
+            return
+        }
+
         const newUser = await createUserAccount(data)
 
         if (!newUser) {

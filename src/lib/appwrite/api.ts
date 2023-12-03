@@ -1,6 +1,6 @@
 import { INewUser } from "@/types";
 import { account, appwriteConfig, avatar, database, storage } from "./config";
-import { ID, Query } from "appwrite";
+import { ID, Models, Query } from "appwrite";
 
 export const saveUserToDB = async (user: {
     accountID: string;
@@ -179,11 +179,11 @@ export const createPost = async (post: { userID: string, caption: string, tags: 
 export const deletePost = async (postID: string) => {
     try {
         const post = await database.getDocument(
-            appwriteConfig.databaseID, 
-            appwriteConfig.postsCollectionID, 
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
             postID);
 
-        if(!post) throw Error
+        if (!post) throw Error
 
         const imageID = post.imageID
 
@@ -356,6 +356,55 @@ export const updatePost = async (post: {
         toUpdatePost.imageID !== post.imageID && await deleteImage(post.imageID)
 
         return updatedPost
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getFollowingList = async (userID: string) => {
+    try {
+        const following = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.followCollectionID,
+            [
+                Query.equal('follower', userID)
+            ]
+        )
+
+        if (!following) throw Error
+
+        return following
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export const getNotFollowingUser = async (userID: string) => {
+    try {
+        const following = await getFollowingList(userID)
+
+        const followingID: string[] = following?.documents.map((user: Models.Document) => user.following.$id) || ['123']
+
+        console.log('following id', followingID)
+
+        const allUsers = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.usersCollectionID);
+
+        if (!allUsers) throw Error
+
+        const notFollowedUser = allUsers.documents.filter(user => {
+            if(!followingID.includes(user.$id)){
+                return user
+            }
+        })
+
+        console.log(notFollowedUser)
+
+        return notFollowedUser
 
     } catch (error) {
         console.log(error)

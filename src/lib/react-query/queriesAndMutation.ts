@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, deletePost, deleteSavePost, getRecentPosts, getSavePost, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
+import { createPost, createUserAccount, deletePost, deleteSavePost, getFollowingList, getNotFollowingUser, getRecentPosts, getSavePost, likePost, savePost, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
 import { INewUser } from '@/types'
 import { QUERY_KEYS } from './keys'
 import { Models } from 'appwrite'
@@ -125,5 +125,19 @@ export const useDeleteSavePost = () => {
         onSuccess: () => queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.GET_SAVE_POST]
         })
+    })
+}
+
+export const useGetFollowingList = (userID: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_FOLLOWING_LIST, userID],
+        queryFn: async () => getFollowingList(userID)
+    })
+}
+
+export const useGetNotFollowingUser = (userID: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.GET_NOT_FOLLOWING_USER, userID],
+        queryFn: async () => getNotFollowingUser(userID)
     })
 }

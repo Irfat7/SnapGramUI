@@ -90,7 +90,7 @@ const PostCard = ({ post, savedPost }: PostProps) => {
                     />
                     <div className='h-12'>
                         <p className='base-medium lg:body-bold text-light-1'>{creator?.name}</p>
-                        <p className='subtle-semibold lg:small-regular small-regular flex-center gap-2 text-light-3'>{formatDateAgo(post?.$createdAt)}</p>
+                        <p className='subtle-semibold lg:small-regular small-regular gap-2 text-light-3'>{formatDateAgo(post?.$createdAt)}</p>
                     </div>
                 </Link>
                 <EditPost post={post} userID={user.id} />
