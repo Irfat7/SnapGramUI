@@ -21,7 +21,7 @@ const LeftSideBar = () => {
     }, [signOutComplete])
 
     return (
-        <div className='hidden md:block md:sticky md:left-0 md:top-0 h-screen w-1/4 bg-dark-2 space-y-8 px-10 py-8'>
+        <div className='hidden md:block md:sticky md:left-0 md:top-0 h-screen md:w-2/6 lg:w-1/4 bg-dark-2 space-y-8 px-10 py-8'>
             <img src={logo} width={130} height={325} alt="snapgram logo" />
 
 

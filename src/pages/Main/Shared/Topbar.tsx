@@ -19,7 +19,7 @@ const Topbar = () => {
     }, [signOutComplete])
 
     return (
-        <div className='p-3 md:hidden flex justify-between items-center'>
+        <div className='sticky top-0 left-0 bg-black p-3 md:hidden flex justify-between items-center'>
             <Link to={'/home'}><img src={logo} width={130} height={325} alt="snapgram logo" /></Link>
             <div className='flex items-center gap-3'>
                 <Button onClick={() => signOut()} className='bg-transparent p-0'>

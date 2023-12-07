@@ -386,8 +386,11 @@ export const getNotFollowingUser = async (userID: string) => {
     try {
         const following = await getFollowingList(userID)
 
-        const followingID: string[] = following?.documents.map((user: Models.Document) => user.following.$id) || ['123']
+        console.log('follow list of current user', following?.documents)
 
+        let followingID: string[] = following?.documents.map((user: Models.Document) => user.following.$id) || []
+
+        followingID = [...followingID, userID]
         console.log('following id', followingID)
 
         const allUsers = await database.listDocuments(
@@ -397,7 +400,7 @@ export const getNotFollowingUser = async (userID: string) => {
         if (!allUsers) throw Error
 
         const notFollowedUser = allUsers.documents.filter(user => {
-            if(!followingID.includes(user.$id)){
+            if (!followingID.includes(user.$id)) {
                 return user
             }
         })
@@ -405,6 +408,34 @@ export const getNotFollowingUser = async (userID: string) => {
         console.log(notFollowedUser)
 
         return notFollowedUser
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const followUser = async (followerID: string, followingID: string) => {
+    try {
+        const followingList = await getFollowingList(followerID)
+        const alreadyFollows = followingList?.documents.find(followRecord => followRecord.follower.$id === followerID && followRecord.following.$id === followingID)
+
+        if (alreadyFollows) {
+            console.log('user already follows')
+            return alreadyFollows
+        }
+
+        const newFollow = database.createDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.followCollectionID,
+            ID.unique(),
+            {
+                follower: followerID,
+                following: followingID
+            });
+
+        if (!newFollow) throw Error
+
+        return newFollow
 
     } catch (error) {
         console.log(error)

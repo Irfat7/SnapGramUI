@@ -1,14 +1,35 @@
+import { AuthContext } from "@/Context/AuthProvider";
+import { useFollowUser } from "@/lib/react-query/queriesAndMutation";
+import { Models } from "appwrite";
+import { Loader2 } from "lucide-react";
+import { useContext } from "react";
 
-const UserCard = () => {
+const UserCard = ({ user }: { user: Models.Document }) => {
+    const { user: follower } = useContext(AuthContext)
+    const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(follower.id)
+
+    const handleFollow = () => {
+        console.log(`${follower.id} will follow ${user.$id}`)
+        followUser({ followerID: follower.id, followingID: user.$id })
+    }
+
     return (
-        <div className="w-full max-w-sm bg-dark-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <div className="flex flex-col items-center pb-10">
-                <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src="/docs/images/people/profile-picture-3.jpg" alt="" />
-                <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
-                <span className="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+        <div className="w-full md:w-60 bg-dark-4 rounded-lg">
+            <div className="flex flex-col items-center py-5">
+                <img className="w-24 h-24 mb-3 rounded-full" src={user.imageURL} alt="user image" />
+                <h5 className="mb-1 text-xl font-medium text-white">{user.name}</h5>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{user.userName}</span>
                 <div className="flex mt-4 md:mt-6">
-                    <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add friend</a>
-                    <a href="#" className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ms-3">Message</a>
+                    <button
+                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
+                        onClick={handleFollow}
+                    >
+                        {
+                            followingSuccess ? 'following' :
+                                isFollowingLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> :
+                                    'Follow'
+                        }
+                    </button>
                 </div>
             </div>
         </div>
