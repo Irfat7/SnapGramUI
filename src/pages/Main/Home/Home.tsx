@@ -5,6 +5,7 @@ import Title from '../Shared/Title';
 import PostCard from './PostCard/PostCard';
 import { useContext } from 'react';
 import { AuthContext } from '@/Context/AuthProvider';
+import PostSkeleton from '@/components/skeletons/PostSkeleton';
 
 const Home = () => {
     const { user } = useContext(AuthContext)
@@ -19,7 +20,9 @@ const Home = () => {
             {
                 isFollowingPostLoading || isSavedPostLoading ?
                     <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <PostSkeleton />
+                        <PostSkeleton />
+                        <PostSkeleton />
                     </> :
                     <>
                         {
