@@ -153,6 +153,9 @@ export const useFollowUser = (userID: string) => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_NOT_FOLLOWING_USER, userID]
             })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_FOLLOWING_POSTS, userID]
+            })
         }
     })
 }

@@ -2,7 +2,7 @@
 
 const PostSkeleton = () => {
     return (
-        <div className="space-y-1 my-4 bg-dark-3 px-2 py-3 rounded-lg animate-pulse">
+        <div className="w-full space-y-1 my-4 bg-dark-3 px-2 py-3 rounded-lg animate-pulse">
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-full bg-gray-400"></div>

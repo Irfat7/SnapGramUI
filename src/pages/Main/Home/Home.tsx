@@ -6,13 +6,12 @@ import PostCard from './PostCard/PostCard';
 import { useContext } from 'react';
 import { AuthContext } from '@/Context/AuthProvider';
 import PostSkeleton from '@/components/skeletons/PostSkeleton';
+import FollowMoreMsg from './FollowMoreMsg';
 
 const Home = () => {
     const { user } = useContext(AuthContext)
     const { data: followingPost, isLoading: isFollowingPostLoading, isError: isFollowingPostError } = useGetFollowingPost(user.id)
     const { data: savedPost, isLoading: isSavedPostLoading } = useGetSavePost(user.id)
-
-    console.log(followingPost)
 
     return (
         <div>
@@ -24,11 +23,13 @@ const Home = () => {
                         <PostSkeleton />
                         <PostSkeleton />
                     </> :
-                    <>
-                        {
-                            followingPost?.documents?.map(post => <PostCard key={post.$id} post={post} savedPost={savedPost} />)
-                        }
-                    </>
+                    followingPost?.documents?.length === 0 ?
+                        <FollowMoreMsg /> :
+                        <>
+                            {
+                                followingPost?.documents?.map(post => <PostCard key={post.$id} post={post} savedPost={savedPost} />)
+                            }
+                        </>
             }
         </div>
     );
