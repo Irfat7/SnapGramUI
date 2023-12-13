@@ -18,11 +18,11 @@ const Home = () => {
             <Title svgSrc={homeSvg} title='Home' alt='Home page icon' />
             {
                 isFollowingPostLoading || isSavedPostLoading ?
-                    <>
+                    <div className='bg-redl'>
                         <PostSkeleton />
                         <PostSkeleton />
                         <PostSkeleton />
-                    </> :
+                    </div> :
                     followingPost?.documents?.length === 0 ?
                         <FollowMoreMsg /> :
                         <>

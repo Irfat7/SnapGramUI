@@ -11,7 +11,7 @@ const Main = () => {
             <Topbar />
             <div className='flex'>
                 <LeftSideBar />
-                <div className='md:w-2/3 px-3 mb-14 md:p-8'>
+                <div className='w-full md:w-2/3 px-3 mb-14 md:p-8'>
                     <Outlet />
                 </div>
             </div>
