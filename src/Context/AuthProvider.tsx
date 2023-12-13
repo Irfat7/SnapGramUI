@@ -36,7 +36,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const checkAuthUser = async (): Promise<boolean> => {
         try {
-            setIsLoading(true)
             const currentAccount = await getCurrentUser()
             if (currentAccount) {
                 setUser({
@@ -48,6 +47,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     imageURL: currentAccount.imageURL,
                 })
                 setAuthenticated(true)
+                setIsLoading(false)
                 return true
             }
         }

@@ -1,4 +1,4 @@
-import { useGetRecentPosts, useGetSavePost } from '@/lib/react-query/queriesAndMutation';
+import { useGetFollowingList, useGetFollowingPost, useGetRecentPosts, useGetSavePost } from '@/lib/react-query/queriesAndMutation';
 import { Loader2 } from 'lucide-react';
 import homeSvg from '/icons/home.svg'
 import Title from '../Shared/Title';
@@ -7,22 +7,23 @@ import { useContext } from 'react';
 import { AuthContext } from '@/Context/AuthProvider';
 
 const Home = () => {
-    const { data: posts, isPending: isPostLoading, isError: isErrorPost } = useGetRecentPosts()
-    const {user} = useContext(AuthContext)
-    const {data:savedPost, isLoading: isSavedPostLoading} = useGetSavePost(user.id)
-    
+    const { user } = useContext(AuthContext)
+    const { data: followingPost, isLoading: isFollowingPostLoading, isError: isFollowingPostError } = useGetFollowingPost(user.id)
+    const { data: savedPost, isLoading: isSavedPostLoading } = useGetSavePost(user.id)
+
+    console.log(followingPost)
 
     return (
         <div>
             <Title svgSrc={homeSvg} title='Home' alt='Home page icon' />
             {
-                (isPostLoading && posts === null) || isSavedPostLoading ?
+                isFollowingPostLoading || isSavedPostLoading ?
                     <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     </> :
                     <>
                         {
-                            posts?.documents?.map(post => <PostCard key={post.$id} post={post} savedPost={savedPost} />)
+                            followingPost?.documents?.map(post => <PostCard key={post.$id} post={post} savedPost={savedPost} />)
                         }
                     </>
             }

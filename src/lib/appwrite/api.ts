@@ -441,3 +441,28 @@ export const followUser = async (followerID: string, followingID: string) => {
         console.log(error)
     }
 }
+
+export const getFollowingPost = async (id: string) => {
+    try {
+        const following = await getFollowingList(id)
+
+        const followingID: string[] = following?.documents.map((user: Models.Document) => user.following.$id) || []
+
+        console.log('followingid',followingID)
+
+
+        const followingPosts = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
+            [
+                Query.equal('creator', followingID)
+            ]);
+
+        if (!followingPosts) throw Error
+
+        return followingPosts
+
+    } catch (error) {
+        console.log(error)
+    }
+}

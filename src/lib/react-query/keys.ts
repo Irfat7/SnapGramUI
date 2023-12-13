@@ -5,4 +5,5 @@ export enum QUERY_KEYS {
     GET_SAVE_POST = 'getSavePost',
     GET_FOLLOWING_LIST = 'getFollowingList',
     GET_NOT_FOLLOWING_USER = 'getNotFollowingUser',
+    GET_FOLLOWING_POSTS = 'getFollowingPosts'
 }

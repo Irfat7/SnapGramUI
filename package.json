@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.19",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.7",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.0.2",
@@ -27,8 +31,10 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.48.2",
     "react-icons": "^4.12.0",
+    "react-loader-spinner": "^6.1.0",
     "react-router-dom": "^6.19.0",
     "sort-by": "^1.2.0",
+    "styled-components": "^6.1.1",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7"
   },
