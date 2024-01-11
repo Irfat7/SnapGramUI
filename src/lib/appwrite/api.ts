@@ -1,6 +1,7 @@
 import { INewUser } from "@/types";
 import { account, appwriteConfig, avatar, database, storage } from "./config";
 import { ID, Models, Query } from "appwrite";
+import { errorMonitor } from "events";
 
 export const saveUserToDB = async (user: {
     accountID: string;
@@ -446,7 +447,7 @@ export const getFollowingPost = async (id: string) => {
     try {
         const following = await getFollowingList(id)
 
-        if(following?.documents.length === 0){
+        if (following?.documents.length === 0) {
             return following
         }
 
@@ -466,6 +467,26 @@ export const getFollowingPost = async (id: string) => {
 
         return followingPosts
 
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const searchUser = async (userName: string) => {
+    try {
+        const searchResult = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.usersCollectionID,
+            [
+                Query.search("userName", userName),
+                Query.limit(20)
+            ]
+        )
+
+        if (!searchResult) throw Error
+
+        return searchResult
+        
     } catch (error) {
         console.log(error)
     }

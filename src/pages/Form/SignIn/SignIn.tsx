@@ -2,6 +2,7 @@ import { AuthContext } from '@/Context/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/use-toast';
 import { useSignInAccount } from '@/lib/react-query/queriesAndMutation';
 import { INewUser } from '@/types';
 import { Loader2 } from 'lucide-react';
@@ -26,6 +27,12 @@ const SignIn = () => {
         if(currentUser){
             setAuthenticated(true)
             navigate('/')
+        }
+        else{
+            return toast({
+                title: "Invalid email or password",
+                className: 'bg-rose-600'
+            })
         }
     }
 
