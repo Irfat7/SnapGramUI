@@ -461,8 +461,6 @@ export const getFollowingPost = async (id: string) => {
                 Query.equal('creator', followingID)
             ]);
 
-        console.log('following post', followingPosts)
-
         if (!followingPosts) throw Error
 
         return followingPosts
@@ -474,11 +472,15 @@ export const getFollowingPost = async (id: string) => {
 
 export const searchUser = async (userName: string) => {
     try {
+        if (userName === '') {
+            return ''
+        }
+        console.log(userName)
         const searchResult = await database.listDocuments(
             appwriteConfig.databaseID,
             appwriteConfig.usersCollectionID,
             [
-                Query.search("userName", userName),
+                Query.startsWith("userName", userName),
                 Query.limit(20)
             ]
         )
@@ -486,7 +488,7 @@ export const searchUser = async (userName: string) => {
         if (!searchResult) throw Error
 
         return searchResult
-        
+
     } catch (error) {
         console.log(error)
     }

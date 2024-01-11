@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import UserCard from './UserCard';
+import UserCard from '../Shared/UserCard';
 import { useGetNotFollowingUser } from '@/lib/react-query/queriesAndMutation';
 import { AuthContext } from '@/Context/AuthProvider';
 import UserSkeleton from '@/components/skeletons/UserSkeleton';

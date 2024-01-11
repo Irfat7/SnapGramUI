@@ -1,5 +1,5 @@
 import { AuthContext } from "@/Context/AuthProvider";
-import { useFollowUser } from "@/lib/react-query/queriesAndMutation";
+import { useFollowUser, useGetFollowingList } from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
 import { Loader2 } from "lucide-react";
 import { useContext } from "react";
@@ -9,7 +9,6 @@ const UserCard = ({ user }: { user: Models.Document }) => {
     const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(follower.id)
 
     const handleFollow = () => {
-        console.log(`${follower.id} will follow ${user.$id}`)
         followUser({ followerID: follower.id, followingID: user.$id })
     }
 
