@@ -458,7 +458,7 @@ export const getFollowingPost = async (id: string) => {
             appwriteConfig.databaseID,
             appwriteConfig.postsCollectionID,
             [
-                Query.equal('creator', followingID)
+                Query.orderDesc('$createdAt'),Query.equal('creator', [...followingID,id])
             ]);
 
         if (!followingPosts) throw Error

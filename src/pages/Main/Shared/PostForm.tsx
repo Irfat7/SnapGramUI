@@ -12,7 +12,12 @@ import { useToast } from '@/components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { Models } from 'appwrite';
 
-const PostForm = ({ post = null }: { post: Models.Document | null }) => {
+interface PostFormProps {
+    post: Models.Document | null;
+    setEditOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+}
+
+const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen }) => {
 
     const {
         register,
@@ -21,10 +26,14 @@ const PostForm = ({ post = null }: { post: Models.Document | null }) => {
     } = useForm<IPost>()
     const [file, setFile] = useState(post ? post.imageURL : [])
     const { mutateAsync: createPost, isPending: isCreatingNewPost } = useCreateNewPost()
-    const { mutateAsync: updatePost, isPending: isUpdatingPost } = useUpdatePost()
+    const { mutateAsync: updatePost, isPending: isUpdatingPost, isSuccess: isUpdatingSuccess } = useUpdatePost()
     const { user } = useContext(AuthContext)
     const { toast } = useToast()
     const navigate = useNavigate()
+
+    if (isUpdatingSuccess) {
+        setEditOpen(false)
+    }
 
     const onSubmit: SubmitHandler<IPost> = async (data) => {
         if (isCreatingNewPost || isUpdatingPost) {
@@ -33,8 +42,7 @@ const PostForm = ({ post = null }: { post: Models.Document | null }) => {
 
         if (post) {
             //update post file will be a string or file[]\
-            const updatedPost = await updatePost({...data, file, postID:post.$id, imageID: post.imageID}) 
-            console.log(updatedPost)
+            const updatedPost = await updatePost({ ...data, file, postID: post.$id, imageID: post.imageID })
         }
         else {
             //new post
