@@ -7,6 +7,9 @@ import { useContext } from "react";
 const UserCard = ({ user }: { user: Models.Document }) => {
     const { user: follower } = useContext(AuthContext)
     const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(follower.id)
+    const { data: followingList, isLoading: isFollowingListLoading } = useGetFollowingList(follower.id)
+    const follows = followingList?.documents.find(eachFollowing => eachFollowing.following.$id == user.$id);
+    console.log(followingList?.documents)
 
     const handleFollow = () => {
         followUser({ followerID: follower.id, followingID: user.$id })
@@ -24,9 +27,8 @@ const UserCard = ({ user }: { user: Models.Document }) => {
                         onClick={handleFollow}
                     >
                         {
-                            followingSuccess ? 'following' :
-                                isFollowingLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> :
-                                    'Follow'
+                            isFollowingLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> :
+                                follows ? 'following' : 'follow'
                         }
                     </button>
                 </div>
