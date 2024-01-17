@@ -56,7 +56,9 @@ export const useDeletePost = () => {
     })
 }
 
-export const useUpdatePost = () => {
+export const useUpdatePost = (userID: string) => {
+    const queryClient = useQueryClient()
+
     return useMutation({
         mutationFn: async (post: {
             postID: string,
@@ -64,7 +66,23 @@ export const useUpdatePost = () => {
             caption: string,
             tags: string,
             file: File[] | string
-        }) => updatePost(post)
+        }) => updatePost(post),
+        onSuccess: (data, { postID }) => {
+            console.log('success', data, postID)
+            const queryData = queryClient.getQueryData([QUERY_KEYS.GET_FOLLOWING_POSTS, userID]) as { documents?: Models.Document[] }
+
+            if (queryData && queryData.documents && Array.isArray(queryData.documents)) {
+                const updatedDocuments = queryData.documents.map((item: Models.Document) => {
+                    if (item.$id === postID) {
+                        return data;
+                    }
+                    return item;
+                });
+
+                const updatedQueryData = { ...queryData, documents: updatedDocuments };
+                queryClient.setQueryData([QUERY_KEYS.GET_FOLLOWING_POSTS, userID], updatedQueryData);
+            }
+        }
     })
 }
 

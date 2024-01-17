@@ -14,10 +14,19 @@ import { useDeletePost } from "@/lib/react-query/queriesAndMutation";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 
+interface PostFormProps {
+    postID: string;
+    setEditOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+}
 
-const DeletePost = ({ postID }: { postID: string }) => {
-    const { mutateAsync: deletePost, isPending: isDeletingPost } = useDeletePost()
+
+const DeletePost: React.FC<PostFormProps> = ({ postID, setEditOpen }) => {
+    const { mutateAsync: deletePost, isPending: isDeletingPost, isSuccess: isDeletingPostComplete } = useDeletePost()
     const navigate = useNavigate()
+
+    if (isDeletingPostComplete) {
+        setEditOpen(false)
+    }
 
     const deleteHandler = async (id: string) => {
         if (isDeletingPost) {

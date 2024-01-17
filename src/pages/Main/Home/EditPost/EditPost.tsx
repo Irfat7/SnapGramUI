@@ -9,11 +9,11 @@ import {
 import editSVG from '/icons/edit.svg'
 import { Models } from "appwrite";
 import PostForm from "../../Shared/PostForm";
-import DeleteAlert from "@/pages/Main/Home/EditPost/DeletePost";
+import DeletePost from "@/pages/Main/Home/EditPost/DeletePost";
 import { useState } from "react";
 
 const EditPost = ({ post, userID }: { post: Models.Document, userID: string }) => {
-    const [editOpen, setEditOpen] = useState(undefined)
+    const [editOpen, setEditOpen] = useState<boolean | undefined>(undefined)
 
     return (
         <div>
@@ -39,7 +39,7 @@ const EditPost = ({ post, userID }: { post: Models.Document, userID: string }) =
                                 <h2 className='h3-bold text-left w-full'>Edit Post</h2>
                             </div>
                             <div>
-                                <DeleteAlert postID={post.$id} />
+                                <DeletePost postID={post.$id} setEditOpen={setEditOpen} />
                             </div>
                         </DialogTitle>
                     </DialogHeader>

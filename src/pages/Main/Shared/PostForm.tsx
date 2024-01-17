@@ -26,8 +26,8 @@ const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen }) => {
     } = useForm<IPost>()
     const [file, setFile] = useState(post ? post.imageURL : [])
     const { mutateAsync: createPost, isPending: isCreatingNewPost } = useCreateNewPost()
-    const { mutateAsync: updatePost, isPending: isUpdatingPost, isSuccess: isUpdatingSuccess } = useUpdatePost()
     const { user } = useContext(AuthContext)
+    const { mutateAsync: updatePost, isPending: isUpdatingPost, isSuccess: isUpdatingSuccess } = useUpdatePost(user.id)
     const { toast } = useToast()
     const navigate = useNavigate()
 
