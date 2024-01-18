@@ -1,11 +1,18 @@
-import React from 'react';
+import ProfileSkeleton from '@/components/skeletons/ProfileSkeleton';
+import { useGetSpecificUserPost } from '@/lib/react-query/queriesAndMutation';
 import { useParams } from 'react-router-dom';
 
 const User = () => {
-    const params = useParams()
+    const { id: userID } = useParams()
+    const { data: posts, isLoading: isPostLoading, isError: isPostError } = useGetSpecificUserPost(userID)
+    if (!isPostLoading) {
+        console.log(posts)
+    }
     return (
         <div>
-            welcome ${params.id}
+            {
+                /* isPostLoading && */ <ProfileSkeleton />
+            }
         </div>
     );
 };

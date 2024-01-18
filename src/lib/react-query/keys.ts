@@ -6,5 +6,6 @@ export enum QUERY_KEYS {
     GET_FOLLOWING_LIST = 'getFollowingList',
     GET_NOT_FOLLOWING_USER = 'getNotFollowingUser',
     GET_FOLLOWING_POSTS = 'getFollowingPosts',
-    GET_SEARCH_RESULT = 'getSearchResult'
+    GET_SEARCH_RESULT = 'getSearchResult',
+    GET_SPECIFIC_USER_POST = 'getSpecificUserPost',
 }

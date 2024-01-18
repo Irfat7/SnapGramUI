@@ -458,7 +458,7 @@ export const getFollowingPost = async (id: string) => {
             appwriteConfig.databaseID,
             appwriteConfig.postsCollectionID,
             [
-                Query.orderDesc('$createdAt'),Query.equal('creator', [...followingID,id])
+                Query.orderDesc('$createdAt'), Query.equal('creator', [...followingID, id])
             ]);
 
         if (!followingPosts) throw Error
@@ -488,6 +488,29 @@ export const searchUser = async (userName: string) => {
         if (!searchResult) throw Error
 
         return searchResult
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getSpecificUserPost = async (id: string | undefined) => {
+    try {
+        if (!id) {
+            throw Error
+        }
+        const posts = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.postsCollectionID,
+            [
+                Query.equal('creator', id)
+            ]
+        );
+
+        if (!posts) throw Error
+
+        return posts
 
     } catch (error) {
         console.log(error)
