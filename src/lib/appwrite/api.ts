@@ -516,3 +516,22 @@ export const getSpecificUserPost = async (id: string | undefined) => {
         console.log(error)
     }
 }
+
+export const getSpecificUser = async (userID: string) => {
+    try {
+        const user = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.usersCollectionID,
+            [
+                Query.equal('$id', userID)
+            ]
+        )
+        if (!user) {
+            console.log('something happened')
+            throw Error
+        }
+        return user
+    } catch (error) {
+        console.log(error)
+    }
+}

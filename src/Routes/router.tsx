@@ -10,6 +10,7 @@ import Explore from "@/pages/Main/Explore/Explore";
 import AllUsers from "@/pages/Main/AllUsers/AllUsers";
 import Saved from "@/pages/Main/Saved/Saved";
 import Create from "@/pages/Main/Create/Create";
+import NothingFound from "@/pages/Main/Shared/NothingFound";
 
 const router = createBrowserRouter([
     {
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
     {
         path: '*',
         //change
-        element: <p>not found</p>
+        element: <NothingFound/>
     }
 ])
 

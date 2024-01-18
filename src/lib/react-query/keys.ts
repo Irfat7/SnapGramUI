@@ -8,4 +8,5 @@ export enum QUERY_KEYS {
     GET_FOLLOWING_POSTS = 'getFollowingPosts',
     GET_SEARCH_RESULT = 'getSearchResult',
     GET_SPECIFIC_USER_POST = 'getSpecificUserPost',
+    GET_SPECIFIC_USER = 'getSpecificUser',
 }

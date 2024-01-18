@@ -1,4 +1,3 @@
-import React from 'react';
 import PostSkeleton from './PostSkeleton';
 
 const ProfileSkeleton = () => {
