@@ -14,7 +14,7 @@ import EditPost from "../EditPost/EditPost";
 
 type PostProps = {
     post: Models.Document
-    savedPost: Models.Document
+    savedPost: Models.DocumentList<Models.Document> | undefined
 }
 
 const PostCard = ({ post, savedPost }: PostProps) => {
