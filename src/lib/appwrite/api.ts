@@ -1,7 +1,6 @@
 import { INewUser } from "@/types";
 import { account, appwriteConfig, avatar, database, storage } from "./config";
 import { ID, Models, Query } from "appwrite";
-import { errorMonitor } from "events";
 
 export const saveUserToDB = async (user: {
     accountID: string;
@@ -437,6 +436,39 @@ export const followUser = async (followerID: string, followingID: string) => {
         if (!newFollow) throw Error
 
         return newFollow
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const unFollowUser = async (followerID: string, followingID: string) => {
+    try {
+        const record = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.followCollectionID,
+            [
+                Query.equal('follower', followerID),
+                Query.equal('following', followingID)
+            ]
+        )
+
+        if (!record) throw Error
+
+        if (record.total === 0) return
+
+        const followID = record.documents[0].$id
+
+        const unfollow = await database.deleteDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.followCollectionID,
+            followID);
+
+        if (!unfollow) throw Error
+
+        console.log(unfollow)
+
+        return unfollow
 
     } catch (error) {
         console.log(error)

@@ -5,12 +5,12 @@ import SignUp from "../pages/Form/SignUp/SignUp";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Main from "@/Layout/Main";
 import Home from "@/pages/Main/Home/Home";
-import User from "@/pages/Main/Profile/Profile";
 import Explore from "@/pages/Main/Explore/Explore";
 import AllUsers from "@/pages/Main/AllUsers/AllUsers";
 import Saved from "@/pages/Main/Saved/Saved";
 import Create from "@/pages/Main/Create/Create";
 import NothingFound from "@/pages/Main/Shared/NothingFound";
+import Profile from "@/pages/Main/Profile/Profile";
 
 const router = createBrowserRouter([
     {
@@ -53,14 +53,13 @@ const router = createBrowserRouter([
             },
             {
                 path: '/profile/:id',
-                element: <User/>
+                element: <Profile />
             }
         ]
     },
     {
         path: '*',
-        //change
-        element: <NothingFound/>
+        element: <NothingFound />
     }
 ])
 

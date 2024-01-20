@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, deletePost, deleteSavePost, followUser, getFollowingList, getFollowingPost, getNotFollowingUser, getRecentPosts, getSavePost, getSpecificUser, getSpecificUserPost, likePost, savePost, searchUser, signInAccount, signOutAccount, updatePost } from '../appwrite/api'
+import { createPost, createUserAccount, deletePost, deleteSavePost, followUser, getFollowingList, getFollowingPost, getNotFollowingUser, getRecentPosts, getSavePost, getSpecificUser, getSpecificUserPost, likePost, savePost, searchUser, signInAccount, signOutAccount, unFollowUser, updatePost } from '../appwrite/api'
 import { INewUser } from '@/types'
 import { QUERY_KEYS } from './keys'
 import { Models } from 'appwrite'
@@ -174,6 +174,31 @@ export const useFollowUser = (userID: string) => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_FOLLOWING_POSTS, userID]
             })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_SPECIFIC_USER]
+            })
+        }
+    })
+}
+
+export const useUnfollowUser = (userID) => {
+    const queryClient = useQueryClient()
+
+    return useMutation({
+        mutationFn: async ({ followerID, followingID }: { followerID: string, followingID: string }) => unFollowUser(followerID, followingID),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_FOLLOWING_LIST, userID]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_NOT_FOLLOWING_USER, userID]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_FOLLOWING_POSTS, userID]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_SPECIFIC_USER]
+            })
         }
     })
 }
@@ -201,7 +226,7 @@ export const useGetSpecificUserPost = (userID: string | undefined) => {
 
 export const useGetSpecificUser = (userID: string) => {
     return useQuery({
-        queryKey: [QUERY_KEYS.GET_SPECIFIC_USER, userID],
+        queryKey: [QUERY_KEYS.GET_SPECIFIC_USER],
         queryFn: async () => getSpecificUser(userID)
     })
 }
