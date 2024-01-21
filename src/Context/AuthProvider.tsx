@@ -45,6 +45,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     bio: currentAccount.bio,
                     imageURL: currentAccount.imageURL,
                 })
+                console.log('should b updated')
                 setAuthenticated(true)
                 setIsLoading(false)
                 return true

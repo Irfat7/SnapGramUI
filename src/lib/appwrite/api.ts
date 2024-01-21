@@ -131,6 +131,56 @@ const getFilePreview = (id: string) => {
     }
 }
 
+export const uploadProfilePicture = async (profilePic: FileList, userID: string) => {
+    try {
+        //prev image check
+        const user = await database.getDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.usersCollectionID,
+            userID
+        )
+        if (!user) throw Error
+
+        if (user.imgaeID) {
+            //delete if prev image exists
+            const deletedImage = await deleteImage(user.imgaeID)
+            if (!deletedImage) throw Error
+        }
+
+        //upload new image
+        const uploadedImage = await uploadImage(profilePic[0])
+
+        if (!uploadedImage) throw Error
+
+        const fileURL = getFilePreview(uploadedImage.$id)
+
+        if (!fileURL) {
+            await deleteImage(uploadedImage.$id)
+            throw Error
+        }
+
+        const updatedUser = database.updateDocument(
+            appwriteConfig.databaseID,
+            appwriteConfig.usersCollectionID,
+            userID,
+            {
+                imgaeID: uploadedImage.$id,
+                imageURL: fileURL
+            }
+        )
+
+        if (!updatedUser) {
+            await deleteImage(uploadedImage.$id)
+            throw Error
+        }
+
+        return updatedUser
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const createPost = async (post: { userID: string, caption: string, tags: string, file: File[] }) => {
     try {
         //image upload

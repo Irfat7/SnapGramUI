@@ -1,6 +1,6 @@
 import ProfileSkeleton from '@/components/skeletons/ProfileSkeleton';
 import { toast } from '@/components/ui/use-toast';
-import { useFollowUser, useGetFollowingList, useGetSavePost, useGetSpecificUser, useGetSpecificUserPost, useUnfollowUser } from '@/lib/react-query/queriesAndMutation';
+import { useFollowUser, useGetFollowingList, useGetSavePost, useGetSpecificUser, useGetSpecificUserPost, useUnfollowUser, useUploadProfilePicture } from '@/lib/react-query/queriesAndMutation';
 import { useParams } from 'react-router-dom';
 import NothingFound from '../Shared/NothingFound';
 import PostCard from '../Home/PostCard/PostCard';
@@ -9,7 +9,7 @@ import { AuthContext } from '@/Context/AuthProvider';
 import { Loader2 } from 'lucide-react';
 
 const Profile = () => {
-    const { user: loggedInUser } = useContext(AuthContext)
+    const { user: loggedInUser, checkAuthUser } = useContext(AuthContext)
     const { id: userID } = useParams()
 
     if (!userID) { return <NothingFound /> }
@@ -21,6 +21,29 @@ const Profile = () => {
     const follows = !!followingList?.documents.find(eachFollowing => eachFollowing.following.$id == userID);
     const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(loggedInUser.id)
     const { mutateAsync: unfollowUser, isSuccess: unfollowingSuccess, isPending: isUnFollowingLoading, isError: failedUnfollowingUser } = useUnfollowUser(loggedInUser.id)
+    const { mutateAsync: uploadProfilePic, isSuccess: profilePicSuccess } = useUploadProfilePicture(loggedInUser.id)
+
+    const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        if (!e.target.files) {
+            return toast({
+                title: "Something went wrong! Try again later",
+                className: 'bg-rose-600'
+            })
+        }
+        const validFile = ['image/jpeg', 'image/jpg', 'image/png'].includes(e.target.files[0].type)
+        if (!validFile) {
+            return toast({
+                title: "JPEG, JPG, PNG file supported only",
+                className: 'bg-rose-600'
+            })
+        }
+
+        const uploadedPic = await uploadProfilePic(e.target.files)
+        if(uploadedPic?.$id){
+            checkAuthUser()
+        }
+    }
 
     if (isPostLoading || isUserInfoLoading || isFollowingListLoading) {
         return <ProfileSkeleton />
@@ -56,7 +79,16 @@ const Profile = () => {
             {
                 userInfo?.documents.map(user => (
                     <div className='flex flex-col items-center gap-3 mb-4 md:mb-9' key={user.$id}>
-                        <img src={user.imageURL} className='w-28 md:w-40 h-28 md:h-40 rounded-full'></img>
+                        <div className='relative'>
+                            <img src={user.imageURL} className='object-cover w-28 md:w-40 h-28 md:h-40 rounded-full'></img>
+                            {
+                                loggedInUser.id === userID && <form>
+                                    <label htmlFor="plus-button" className="text-5xl absolute top-[61%] left-[65%] md:left-[76%] cursor-pointer">+</label>
+                                    <input name="profileImage" onChange={(e) => handleImage(e)} type='file' id="plus-button" className='hidden' />
+                                    <button>upload</button>
+                                </form>
+                            }
+                        </div>
                         {
                             loggedInUser.id === userID ? '' : button
                         }

@@ -20,7 +20,7 @@ const UserCard = ({ user }: { user: Models.Document }) => {
         <div className="w-full md:w-60 bg-dark-4 rounded-lg">
             <div className="flex flex-col items-center py-5">
                 <Link  to={`/profile/${user.$id}`} className="flex flex-col items-center">
-                    <img className="w-24 h-24 mb-3 rounded-full" src={user.imageURL} alt="user image" />
+                    <img className="object-cover w-24 h-24 mb-3 rounded-full" src={user.imageURL} alt="user image" />
                     <h5 className="mb-1 text-xl font-medium text-white">{user.name}</h5>
                     <span className="text-sm text-gray-500 dark:text-gray-400">{user.userName}</span>
                 </Link>

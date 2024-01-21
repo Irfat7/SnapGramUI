@@ -4,7 +4,7 @@ import {
     useQueryClient,
     useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, deletePost, deleteSavePost, followUser, getFollowingList, getFollowingPost, getNotFollowingUser, getRecentPosts, getSavePost, getSpecificUser, getSpecificUserPost, likePost, savePost, searchUser, signInAccount, signOutAccount, unFollowUser, updatePost } from '../appwrite/api'
+import { createPost, createUserAccount, deletePost, deleteSavePost, followUser, getCurrentUser, getFollowingList, getFollowingPost, getNotFollowingUser, getRecentPosts, getSavePost, getSpecificUser, getSpecificUserPost, likePost, savePost, searchUser, signInAccount, signOutAccount, unFollowUser, updatePost, uploadProfilePicture } from '../appwrite/api'
 import { INewUser } from '@/types'
 import { QUERY_KEYS } from './keys'
 import { Models } from 'appwrite'
@@ -228,5 +228,17 @@ export const useGetSpecificUser = (userID: string) => {
     return useQuery({
         queryKey: [QUERY_KEYS.GET_SPECIFIC_USER],
         queryFn: async () => getSpecificUser(userID)
+    })
+}
+
+export const useUploadProfilePicture = (userID: string) => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (profilePic: FileList) => uploadProfilePicture(profilePic, userID),
+        onSuccess: ()=>{
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_SPECIFIC_USER]
+            })
+        }
     })
 }
