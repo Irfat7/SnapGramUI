@@ -239,6 +239,15 @@ export const useUploadProfilePicture = (userID: string) => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_SPECIFIC_USER]
             })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_FOLLOWING_POSTS, userID]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_SPECIFIC_USER_POST, userID]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_RECENT_POSTS, userID]
+            })
         }
     })
 }

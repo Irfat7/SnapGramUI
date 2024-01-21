@@ -1,0 +1,12 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg fill="#000000" width="800px" height="800px" viewBox="0 0 512.00 512.00" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="0.00512" transform="rotate(0)">
+<g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(79.36000000000001,79.36000000000001), scale(0.69)">
+<rect x="0" y="0" width="512.00" height="512.00" rx="256" fill="#ffffff" strokewidth="0"/>
+</g>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier">
+<title>ionicons-v5-a</title>
+<path d="M256,48C141.31,48,48,141.31,48,256s93.31,208,208,208,208-93.31,208-208S370.69,48,256,48Zm80,224H272v64a16,16,0,0,1-32,0V272H176a16,16,0,0,1,0-32h64V176a16,16,0,0,1,32,0v64h64a16,16,0,0,1,0,32Z"/>
+</g>
+</svg>

@@ -85,7 +85,7 @@ const PostCard = ({ post, savedPost }: PostProps) => {
                 <Link to={`/profile/${creator?.$id}`} className='flex items-center gap-2'>
                     <img
                         src={creator?.imageURL}
-                        className='w-10 h-10 rounded-full'
+                        className='object-cover w-10 h-10 rounded-full'
                         alt="user profile image"
                     />
                     <div className='h-12'>
