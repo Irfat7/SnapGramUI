@@ -10,7 +10,6 @@ const UserCard = ({ user }: { user: Models.Document }) => {
     const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(follower.id)
     const { data: followingList, isLoading: isFollowingListLoading } = useGetFollowingList(follower.id)
     const follows = followingList?.documents.find(eachFollowing => eachFollowing.following.$id == user.$id);
-    console.log(followingList?.documents)
 
     const handleFollow = () => {
         followUser({ followerID: follower.id, followingID: user.$id })

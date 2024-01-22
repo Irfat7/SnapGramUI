@@ -4,10 +4,11 @@ import { useFollowUser, useGetFollowingList, useGetSavePost, useGetSpecificUser,
 import { useParams } from 'react-router-dom';
 import NothingFound from '../Shared/NothingFound';
 import PostCard from '../Home/PostCard/PostCard';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { AuthContext } from '@/Context/AuthProvider';
 import { Loader2 } from 'lucide-react';
 import addSVG from '/icons/add-svg.svg'
+import CommonDialog from '@/components/others/CommonDialog';
 
 const Profile = () => {
     const { user: loggedInUser, checkAuthUser } = useContext(AuthContext)
@@ -23,6 +24,15 @@ const Profile = () => {
     const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(loggedInUser.id)
     const { mutateAsync: unfollowUser, isSuccess: unfollowingSuccess, isPending: isUnFollowingLoading, isError: failedUnfollowingUser } = useUnfollowUser(loggedInUser.id)
     const { mutateAsync: uploadProfilePic, isPending: isUpdatingProfilePic, isSuccess: profilePicSuccess } = useUploadProfilePicture(loggedInUser.id)
+    const [dialogOpen, setDialogOpen] = useState<boolean | undefined>(undefined)
+    const [file, setFile] = useState<FileList>()
+    const formRef = useRef(null)
+
+    const resetForm = () => {
+        if(formRef.current){
+            formRef.current.reset()
+        }
+    }
 
     const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
@@ -32,7 +42,7 @@ const Profile = () => {
                 className: 'bg-rose-600'
             })
         }
-        const validFile = ['image/jpeg', 'image/jpg', 'image/png'].includes(e.target.files[0].type)
+        const validFile = ['image/jpeg', 'image/jpg', 'image/png'].includes(e.target.files[0]?.type)
         if (!validFile) {
             return toast({
                 title: "JPEG, JPG, PNG file supported only",
@@ -40,10 +50,8 @@ const Profile = () => {
             })
         }
 
-        const uploadedPic = await uploadProfilePic(e.target.files)
-        if (uploadedPic?.$id) {
-            checkAuthUser()
-        }
+        setFile(e.target.files)
+        setDialogOpen(true)
     }
 
     if (isPostLoading || isUserInfoLoading || isFollowingListLoading) {
@@ -91,12 +99,15 @@ const Profile = () => {
                                 </div>
                             }
                             {
-                                loggedInUser.id === userID && !isUpdatingProfilePic ? <form>
-                                    <label htmlFor="plus-button" className="text-5xl absolute top-[70%] left-[65%] md:left-[76%] cursor-pointer">
-                                        <img src={addSVG} alt="" />
-                                    </label>
-                                    <input name="profileImage" onChange={(e) => handleImage(e)} type='file' id="plus-button" className='hidden' />
-                                </form> : ''
+                                loggedInUser.id === userID && !isUpdatingProfilePic ? <div>
+                                    <CommonDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} file={file} setFile={setFile} uploadProfilePic={uploadProfilePic}/>
+                                    <form ref={formRef} onClick={resetForm}>
+                                        <label htmlFor="plus-button" className="text-5xl absolute top-[70%] left-[65%] md:left-[76%] cursor-pointer">
+                                            <img src={addSVG} alt="" />
+                                        </label>
+                                        <input name="profileImage" onChange={(e) => handleImage(e)} type='file' id="plus-button" className='hidden' />
+                                    </form>
+                                </div> : ''
                             }
                         </div>
                         {

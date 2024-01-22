@@ -195,8 +195,6 @@ export const createPost = async (post: { userID: string, caption: string, tags: 
             throw Error
         }
 
-        console.log(fileURL)
-
         //tag separate
         const tags = post.tags.split(',').map((item: string) => item.trim());
 
@@ -304,7 +302,6 @@ export const likePost = async (postID: string, likesArray: string[]) => {
 
 export const savePost = async (userID: string, postID: string) => {
     try {
-        console.log(123)
         const newSave = await database.createDocument(
             appwriteConfig.databaseID,
             appwriteConfig.savesCollectionID,
@@ -436,12 +433,9 @@ export const getNotFollowingUser = async (userID: string) => {
     try {
         const following = await getFollowingList(userID)
 
-        console.log('follow list of current user', following?.documents)
-
         let followingID: string[] = following?.documents.map((user: Models.Document) => user.following.$id) || []
 
         followingID = [...followingID, userID]
-        console.log('following id', followingID)
 
         const allUsers = await database.listDocuments(
             appwriteConfig.databaseID,
@@ -454,8 +448,6 @@ export const getNotFollowingUser = async (userID: string) => {
                 return user
             }
         })
-
-        console.log(notFollowedUser)
 
         return notFollowedUser
 
@@ -470,7 +462,6 @@ export const followUser = async (followerID: string, followingID: string) => {
         const alreadyFollows = followingList?.documents.find(followRecord => followRecord.follower.$id === followerID && followRecord.following.$id === followingID)
 
         if (alreadyFollows) {
-            console.log('user already follows')
             return alreadyFollows
         }
 
@@ -516,8 +507,6 @@ export const unFollowUser = async (followerID: string, followingID: string) => {
 
         if (!unfollow) throw Error
 
-        console.log(unfollow)
-
         return unfollow
 
     } catch (error) {
@@ -557,7 +546,6 @@ export const searchUser = async (userName: string) => {
         if (userName === '') {
             return ''
         }
-        console.log(userName)
         const searchResult = await database.listDocuments(
             appwriteConfig.databaseID,
             appwriteConfig.usersCollectionID,
@@ -608,10 +596,8 @@ export const getSpecificUser = async (userID: string) => {
                 Query.equal('$id', userID)
             ]
         )
-        if (!user) {
-            console.log('something happened')
-            throw Error
-        }
+        if (!user) throw Error
+
         return user
     } catch (error) {
         console.log(error)

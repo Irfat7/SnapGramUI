@@ -68,7 +68,6 @@ export const useUpdatePost = (userID: string) => {
             file: File[] | string
         }) => updatePost(post),
         onSuccess: (data, { postID }) => {
-            console.log('success', data, postID)
             const queryData = queryClient.getQueryData([QUERY_KEYS.GET_FOLLOWING_POSTS, userID]) as { documents?: Models.Document[] }
 
             if (queryData && queryData.documents && Array.isArray(queryData.documents)) {

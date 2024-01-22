@@ -15,8 +15,7 @@ const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
     else if (authenticated) {
         return children
     }
-
-    console.log('redirecting to sign up')
+    
     return <Navigate to='/form' />
 };
 

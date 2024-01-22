@@ -36,7 +36,6 @@ const PostCard = ({ post, savedPost }: PostProps) => {
         let newLikes = [...allLikeUserID]
 
         if (isLikingPost) {
-            console.log('abbey sale')
             return
         }
 

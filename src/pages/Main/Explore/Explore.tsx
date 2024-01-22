@@ -19,8 +19,6 @@ const Explore = () => {
     const [searchUserName, setSearchUserName] = useState<string>('')
     const { data: searchResult, isLoading: isSearchingLoading, isError: isSearchingError } = useSearchUser(searchUserName)
 
-    console.log(searchResult)
-
     return (
         <div>
             <Title svgSrc={exploreSVG} title='Explore' alt='Explore page icon' />
