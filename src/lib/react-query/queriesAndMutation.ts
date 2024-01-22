@@ -22,8 +22,13 @@ export const useSignInAccount = () => {
 }
 
 export const useSignOutAccount = () => {
+    const queryClient = useQueryClient()
+
     return useMutation({
-        mutationFn: signOutAccount
+        mutationFn: signOutAccount,
+        onSuccess: () => {
+            queryClient.clear()
+        }
     })
 }
 
@@ -225,7 +230,7 @@ export const useGetSpecificUserPost = (userID: string | undefined) => {
 
 export const useGetSpecificUser = (userID: string) => {
     return useQuery({
-        queryKey: [QUERY_KEYS.GET_SPECIFIC_USER],
+        queryKey: [QUERY_KEYS.GET_SPECIFIC_USER, userID],
         queryFn: async () => getSpecificUser(userID)
     })
 }
@@ -234,7 +239,7 @@ export const useUploadProfilePicture = (userID: string) => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: (profilePic: FileList) => uploadProfilePicture(profilePic, userID),
-        onSuccess: ()=>{
+        onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: [QUERY_KEYS.GET_SPECIFIC_USER]
             })

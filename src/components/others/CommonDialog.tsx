@@ -10,8 +10,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { useContext } from "react";
 
 const CommonDialog = ({ dialogOpen, setDialogOpen, file = undefined, uploadProfilePic, setFile }) => {
@@ -39,11 +37,11 @@ const CommonDialog = ({ dialogOpen, setDialogOpen, file = undefined, uploadProfi
                 <DialogHeader>
                     <DialogTitle>Profile Picture</DialogTitle>
                     <DialogDescription>
-                        Always public
+                        Your photo will look like this
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center">
-                    <img className="max-h-56" src={URL.createObjectURL(file[0])} alt="" />
+                    <img className="max-h-56 aspect-square object-cover rounded-full" src={URL.createObjectURL(file[0])} alt="" />
                 </div>
                 <div className="justify-end flex gap-2">
                     <Button onClick={handleCancel} type="button" variant="secondary">

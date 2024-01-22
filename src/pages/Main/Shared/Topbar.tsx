@@ -7,9 +7,9 @@ import { AuthContext } from '@/Context/AuthProvider';
 import { IoLogOut } from "react-icons/io5";
 
 const Topbar = () => {
+    const { user, setAuthenticated } = useContext(AuthContext)
     const { mutateAsync: signOut, isSuccess: signOutComplete } = useSignOutAccount()
     const navigate = useNavigate()
-    const { user, setAuthenticated } = useContext(AuthContext)
 
     useEffect(() => {
         if (signOutComplete) {

@@ -3,7 +3,7 @@ import { IContext, IUser } from '@/types';
 import React, { useEffect } from 'react';
 import { createContext, useState } from 'react';
 
-const initialUser = {
+export const initialUser = {
     id: '',
     name: '',
     userName: '',
@@ -30,6 +30,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [authenticated, setAuthenticated] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         checkAuthUser()
     }, [authenticated])
 

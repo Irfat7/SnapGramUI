@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import logo from '/images/logo.svg'
-import { AuthContext } from '@/Context/AuthProvider';
+import { AuthContext, initialUser } from '@/Context/AuthProvider';
 import { Link, NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { sidebarLinks } from '@/constatnts';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import logOutSVG from '/icons/logout.svg'
 import { useSignOutAccount } from '@/lib/react-query/queriesAndMutation';
 
 const LeftSideBar = () => {
-    const { user, setAuthenticated } = useContext(AuthContext)
+    const { user, isLoading, setAuthenticated, setUser } = useContext(AuthContext)
     const { pathname } = useLocation()
     const navigate = useNavigate()
     const { mutateAsync: signOut, isSuccess: signOutComplete } = useSignOutAccount()
@@ -16,6 +16,7 @@ const LeftSideBar = () => {
     useEffect(() => {
         if (signOutComplete) {
             setAuthenticated(false)
+            setUser(initialUser)
             navigate('/form')
         }
     }, [signOutComplete])
@@ -25,13 +26,15 @@ const LeftSideBar = () => {
             <img src={logo} width={130} height={325} alt="snapgram logo" />
 
 
-            <Link to={`/profile/${user.id}`} className='flex items-center gap-2'>
-                <img src={user.imageURL} className='object-cover w-14 h-14 rounded-full' alt="user profile image" />
-                <div className='h-12'>
-                    <p className='body-bold'>{user.name}</p>
-                    <p className='small-regular text-light-3'>{user.userName}</p>
-                </div>
-            </Link>
+            {
+                isLoading ? '1234' : <Link to={`/profile/${user.id}`} className='flex items-center gap-2'>
+                    <img src={user.imageURL} className='object-cover w-14 h-14 rounded-full' alt="user profile image" />
+                    <div className='h-12'>
+                        <p className='body-bold'>{user.name}</p>
+                        <p className='small-regular text-light-3'>{user.userName}</p>
+                    </div>
+                </Link>
+            }
 
             <ul className='space-y-3'>
                 {
