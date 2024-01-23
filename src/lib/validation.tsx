@@ -1,4 +1,7 @@
-export const nameValidate = (errors) => {
+import { INewUser } from "@/types"
+import { FieldErrors } from "react-hook-form"
+
+export const nameValidate = (errors: FieldErrors<INewUser>) => {
     if (errors.name?.type === "required") {
         return "Name is required"
     }
@@ -12,7 +15,7 @@ export const nameValidate = (errors) => {
     return ''
 }
 
-export const passwordValidate = (errors) => {
+export const passwordValidate = (errors: FieldErrors<INewUser>) => {
     if (errors.password?.type === "required") {
         return "Password is required"
     }
@@ -21,7 +24,7 @@ export const passwordValidate = (errors) => {
     }
 }
 
-export const userNameValidate = (errors) => {
+export const userNameValidate = (errors: FieldErrors<INewUser>) => {
     if (errors.userName?.type === "required") {
         return "Username is required"
     }

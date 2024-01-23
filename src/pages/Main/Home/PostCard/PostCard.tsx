@@ -9,7 +9,6 @@ import { formatDateAgo } from "@/utils";
 import { AuthContext } from "@/Context/AuthProvider";
 import { useDeleteSavePost, useLikePost, useSavePost } from "@/lib/react-query/queriesAndMutation";
 import useHasLiked from "@/hooks/useHasLiked";
-import editSVG from '/icons/edit.svg'
 import EditPost from "../EditPost/EditPost";
 
 type PostProps = {
@@ -58,7 +57,7 @@ const PostCard = ({ post, savedPost }: PostProps) => {
             return
         }
 
-        if (hasSaved) {
+        if (hasSaved && isSavedObj) {
             setHasSaved(false)
             const res = await deleteSavePost(isSavedObj.$id)
             if (res?.status === 'ok') {

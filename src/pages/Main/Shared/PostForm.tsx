@@ -14,24 +14,24 @@ import { Models } from 'appwrite';
 
 interface PostFormProps {
     post: Models.Document | null;
-    setEditOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+    setEditOpen?: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
-const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen }) => {
+const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen}) => {
 
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<IPost>()
-    const [file, setFile] = useState(post ? post.imageURL : [])
+    const [file, setFile] = useState<string | File[]>(post ? post.imageURL : [])
     const { mutateAsync: createPost, isPending: isCreatingNewPost } = useCreateNewPost()
     const { user } = useContext(AuthContext)
     const { mutateAsync: updatePost, isPending: isUpdatingPost, isSuccess: isUpdatingSuccess } = useUpdatePost(user.id)
     const { toast } = useToast()
     const navigate = useNavigate()
 
-    if (isUpdatingSuccess) {
+    if (isUpdatingSuccess && setEditOpen) {
         setEditOpen(false)
     }
 
@@ -42,7 +42,7 @@ const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen }) => {
 
         if (post) {
             //update post file will be a string or file[]\
-            const updatedPost = await updatePost({ ...data, file, postID: post.$id, imageID: post.imageID })
+            await updatePost({ ...data, file, postID: post.$id, imageID: post.imageID })
         }
         else {
             //new post

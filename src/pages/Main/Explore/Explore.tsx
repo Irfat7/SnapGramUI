@@ -3,7 +3,6 @@ import Title from '../Shared/Title';
 import exploreSVG from '/icons/wallpaper.svg'
 import { useContext, useState } from 'react';
 import { AuthContext } from '@/Context/AuthProvider';
-import { Loader2, SearchCheck } from 'lucide-react';
 import PostCard from '../Home/PostCard/PostCard';
 import { Models } from 'appwrite';
 import PostSkeleton from '@/components/skeletons/PostSkeleton';
@@ -13,11 +12,11 @@ import UserSkeleton from '@/components/skeletons/UserSkeleton';
 import UserCard from '../Shared/UserCard';
 
 const Explore = () => {
-    const { data: posts, isPending: isPostLoading, isError: isErrorPost } = useGetRecentPosts()
+    const { data: posts, isPending: isPostLoading } = useGetRecentPosts()
     const { user } = useContext(AuthContext)
     const { data: savedPost, isLoading: isSavedPostLoading } = useGetSavePost(user.id)
     const [searchUserName, setSearchUserName] = useState<string>('')
-    const { data: searchResult, isLoading: isSearchingLoading, isError: isSearchingError } = useSearchUser(searchUserName)
+    const { data: searchResult, isLoading: isSearchingLoading } = useSearchUser(searchUserName)
 
     return (
         <div>

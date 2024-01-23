@@ -7,7 +7,7 @@ import { AuthContext } from '@/Context/AuthProvider'
 
 const Form = () => {
     const navigate = useNavigate()
-    const { checkAuthUser, authenticated, isLoading } = useContext(AuthContext)
+    const { authenticated, isLoading } = useContext(AuthContext)
 
     useEffect(() => {
         if(!isLoading && authenticated){

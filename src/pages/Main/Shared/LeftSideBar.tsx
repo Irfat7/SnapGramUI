@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import logo from '/images/logo.svg'
 import { AuthContext, initialUser } from '@/Context/AuthProvider';
-import { Link, NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { sidebarLinks } from '@/constatnts';
 import { Button } from '@/components/ui/button';
 import logOutSVG from '/icons/logout.svg'
@@ -28,7 +28,7 @@ const LeftSideBar = () => {
 
             {
                 isLoading ? '1234' : <Link to={`/profile/${user.id}`} className='flex items-center gap-2'>
-                    <img src={user.imageURL} className='object-cover w-14 h-14 rounded-full' alt="user profile image" />
+                    <img src={JSON.stringify(user.imageURL)} className='object-cover w-14 h-14 rounded-full' alt="user profile image" />
                     <div className='h-12'>
                         <p className='body-bold'>{user.name}</p>
                         <p className='small-regular text-light-3'>{user.userName}</p>

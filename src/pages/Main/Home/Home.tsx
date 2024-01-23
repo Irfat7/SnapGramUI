@@ -1,5 +1,4 @@
-import { useGetFollowingList, useGetFollowingPost, useGetRecentPosts, useGetSavePost } from '@/lib/react-query/queriesAndMutation';
-import { Loader2 } from 'lucide-react';
+import { useGetFollowingPost, useGetSavePost } from '@/lib/react-query/queriesAndMutation';
 import homeSvg from '/icons/home.svg'
 import Title from '../Shared/Title';
 import PostCard from './PostCard/PostCard';
@@ -10,7 +9,7 @@ import FollowMoreMsg from './FollowMoreMsg';
 
 const Home = () => {
     const { user } = useContext(AuthContext)
-    const { data: followingPost, isLoading: isFollowingPostLoading, isError: isFollowingPostError } = useGetFollowingPost(user.id)
+    const { data: followingPost, isLoading: isFollowingPostLoading } = useGetFollowingPost(user.id)
     const { data: savedPost, isLoading: isSavedPostLoading } = useGetSavePost(user.id)
 
     return (

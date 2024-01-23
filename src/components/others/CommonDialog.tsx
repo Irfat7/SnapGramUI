@@ -2,17 +2,24 @@ import { AuthContext } from "@/Context/AuthProvider";
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
-import { useContext } from "react";
+import { UseMutateAsyncFunction } from "@tanstack/react-query";
+import { Models } from "appwrite";
+import React, { useContext } from "react";
 
-const CommonDialog = ({ dialogOpen, setDialogOpen, file = undefined, uploadProfilePic, setFile }) => {
+interface ICommonDialog {
+    dialogOpen: boolean | undefined;
+    setDialogOpen: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+    file: FileList | undefined;
+    setFile: React.Dispatch<React.SetStateAction<FileList | undefined>>
+    uploadProfilePic: UseMutateAsyncFunction<Models.Document | undefined, Error, FileList, unknown>;
+}
+
+const CommonDialog: React.FC<ICommonDialog> = ({ dialogOpen, setDialogOpen, file = undefined, uploadProfilePic, setFile }) => {
     const { checkAuthUser } = useContext(AuthContext)
     if (!file) {
         return
@@ -28,7 +35,7 @@ const CommonDialog = ({ dialogOpen, setDialogOpen, file = undefined, uploadProfi
 
     const handleCancel = () => {
         setDialogOpen(undefined)
-        setFile(null)
+        setFile(undefined)
     }
 
     return (

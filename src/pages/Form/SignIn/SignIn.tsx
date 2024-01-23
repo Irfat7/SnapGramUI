@@ -14,11 +14,9 @@ const SignIn = () => {
     const {
         register,
         handleSubmit,
-        watch,
-        reset,
         formState: { errors },
     } = useForm<INewUser>()
-    const { mutateAsync: signInUser, isPending: isSigningIn } = useSignInAccount()
+    const { mutateAsync: signInUser } = useSignInAccount()
     const { isLoading, setAuthenticated } = useContext(AuthContext)
     const navigate = useNavigate()
 

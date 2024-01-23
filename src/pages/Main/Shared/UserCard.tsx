@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 
 const UserCard = ({ user }: { user: Models.Document }) => {
     const { user: follower } = useContext(AuthContext)
-    const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(follower.id)
-    const { data: followingList, isLoading: isFollowingListLoading } = useGetFollowingList(follower.id)
+    const { mutateAsync: followUser, isPending: isFollowingLoading } = useFollowUser(follower.id)
+    const { data: followingList } = useGetFollowingList(follower.id)
     const follows = followingList?.documents.find(eachFollowing => eachFollowing.following.$id == user.$id);
 
     const handleFollow = () => {

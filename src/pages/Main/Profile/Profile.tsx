@@ -11,7 +11,7 @@ import addSVG from '/icons/add-svg.svg'
 import CommonDialog from '@/components/others/CommonDialog';
 
 const Profile = () => {
-    const { user: loggedInUser, checkAuthUser } = useContext(AuthContext)
+    const { user: loggedInUser } = useContext(AuthContext)
     const { id: userID } = useParams()
 
     if (!userID) { return <NothingFound /> }
@@ -21,15 +21,15 @@ const Profile = () => {
     const { data: savedPost } = useGetSavePost(loggedInUser.id)
     const { data: followingList, isLoading: isFollowingListLoading } = useGetFollowingList(loggedInUser.id)
     const follows = !!followingList?.documents.find(eachFollowing => eachFollowing.following.$id == userID);
-    const { mutateAsync: followUser, isSuccess: followingSuccess, isPending: isFollowingLoading, isError: failedFollowingUser } = useFollowUser(loggedInUser.id)
-    const { mutateAsync: unfollowUser, isSuccess: unfollowingSuccess, isPending: isUnFollowingLoading, isError: failedUnfollowingUser } = useUnfollowUser(loggedInUser.id)
-    const { mutateAsync: uploadProfilePic, isPending: isUpdatingProfilePic, isSuccess: profilePicSuccess } = useUploadProfilePicture(loggedInUser.id)
+    const { mutateAsync: followUser, isPending: isFollowingLoading } = useFollowUser(loggedInUser.id)
+    const { mutateAsync: unfollowUser, isPending: isUnFollowingLoading } = useUnfollowUser(loggedInUser.id)
+    const { mutateAsync: uploadProfilePic, isPending: isUpdatingProfilePic } = useUploadProfilePicture(loggedInUser.id)
     const [dialogOpen, setDialogOpen] = useState<boolean | undefined>(undefined)
-    const [file, setFile] = useState<FileList>()
-    const formRef = useRef(null)
+    const [file, setFile] = useState<FileList | undefined>()
+    const formRef = useRef<HTMLFormElement | null>(null)
 
     const resetForm = () => {
-        if(formRef.current){
+        if (formRef.current) {
             formRef.current.reset()
         }
     }
@@ -100,7 +100,7 @@ const Profile = () => {
                             }
                             {
                                 loggedInUser.id === userID && !isUpdatingProfilePic ? <div>
-                                    <CommonDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} file={file} setFile={setFile} uploadProfilePic={uploadProfilePic}/>
+                                    <CommonDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} file={file} setFile={setFile} uploadProfilePic={uploadProfilePic} />
                                     <form ref={formRef} onClick={resetForm}>
                                         <label htmlFor="plus-button" className="text-5xl absolute top-[70%] left-[65%] md:left-[76%] cursor-pointer">
                                             <img src={addSVG} alt="" />

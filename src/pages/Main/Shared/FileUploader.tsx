@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone'
 import fileUpload from '/icons/file-upload.svg'
 
-const FileUploader = ({ setFile, prevFileURL = '' }) => {
+const FileUploader = ({ setFile, prevFileURL = '' }: { setFile: React.Dispatch<React.SetStateAction<string | File[]>>, prevFileURL:string }) => {
     const [fileURL, setFileURL] = useState(prevFileURL ? prevFileURL : null)
 
     const onDrop = useCallback((acceptedFiles: File[]) => {

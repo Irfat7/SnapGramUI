@@ -1,4 +1,3 @@
-import { AuthContext } from '@/Context/AuthProvider';
 import ScrollToTop from '@/components/others/ScrollToTop';
 import BottomBar from '@/pages/Main/Shared/BottomBar';
 import LeftSideBar from '@/pages/Main/Shared/LeftSideBar';

@@ -27,7 +27,7 @@ const Topbar = () => {
                     <IoLogOut size='1.7em' className='text-blue-400' />
                 </Button>
                 <Link to={`/profile/${user.id}`}>
-                    <img src={user.imageURL} className='w-8 h-8 rounded-full' alt="" />
+                    <img src={JSON.stringify(user.imageURL)} className='w-8 h-8 rounded-full' alt="" />
                 </Link>
             </div>
         </div>
