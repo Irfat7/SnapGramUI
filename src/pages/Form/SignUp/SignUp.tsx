@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
+import { userNameCheck } from "@/lib/appwrite/api"
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutation"
-import { nameValidate, passwordValidate } from "@/lib/validation"
+import { nameValidate, passwordValidate, userNameValidate } from "@/lib/validation"
 import { INewUser } from "@/types"
 import { Loader2 } from "lucide-react"
 import { useContext } from "react"
@@ -81,8 +82,21 @@ const SignUp = () => {
 
                 <div>
                     <Label className="base-medium" htmlFor="userName">Username</Label>
-                    <Input className="bg-dark-4 border-none" {...register("userName", { required: true })} type="text" defaultValue='' name="userName" id="userName" />
-                    {errors.userName && <span className="small-medium text-red">This field is required</span>}
+                    <Input className="bg-dark-4 border-none" {
+                        ...register("userName", {
+                            required: true,
+                            validate: async (value) => {
+                                const proceed = await userNameCheck(value)
+                                if (proceed) {
+                                    return true
+                                }
+                                else {
+                                    return false
+                                }
+                            }
+                        })
+                    } type="text" defaultValue='' name="userName" id="userName" />
+                    {errors.userName && <span className="small-medium text-red">{userNameValidate(errors)}</span>}
                 </div>
 
                 <div>

@@ -19,6 +19,14 @@ export const passwordValidate = (errors) => {
     if (errors.password?.type === "validate") {
         return "Minimum length of 8 with alphanumeric"
     }
-    
+}
+
+export const userNameValidate = (errors) => {
+    if (errors.userName?.type === "required") {
+        return "Username is required"
+    }
+    if (errors.userName?.type === "validate") {
+        return "Username already exists"
+    }
 }
 

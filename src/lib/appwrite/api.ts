@@ -603,3 +603,24 @@ export const getSpecificUser = async (userID: string) => {
         console.log(error)
     }
 }
+
+export const userNameCheck = async (userName: string) => {
+    try {
+        const userNameExist = await database.listDocuments(
+            appwriteConfig.databaseID,
+            appwriteConfig.usersCollectionID,
+            [
+                Query.equal('userName', userName)
+            ]
+        )
+
+        if (!userNameExist || userNameExist.total > 0) {
+            return false // account cant be created
+        }
+
+        return true
+
+    } catch (error) {
+        console.log(error)
+    }
+}
