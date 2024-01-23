@@ -111,7 +111,7 @@ const PostCard = ({ post, savedPost }: PostProps) => {
             </p>
             <img
                 src={imageURL}
-                className="rounded-xl w-full object-contain"
+                className="rounded-xl w-full h-[300px] md:h-[500px] object-contain bg-dark-4"
                 alt='image content'
             />
             <div className="flex justify-between">

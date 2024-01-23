@@ -371,7 +371,7 @@ export const updatePost = async (post: {
             imageID: post.imageID
         }
 
-        if (typeof post.file !== 'string') {
+        if (typeof post.file !== 'string' && Array.isArray(post.file)) {
             // create a new file and delete prev one from bucket
             const uploadedImage = await uploadImage(post.file[0])
 

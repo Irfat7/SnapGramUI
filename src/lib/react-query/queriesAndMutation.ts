@@ -2,9 +2,8 @@ import {
     useQuery,
     useMutation,
     useQueryClient,
-    useInfiniteQuery,
 } from '@tanstack/react-query'
-import { createPost, createUserAccount, deletePost, deleteSavePost, followUser, getCurrentUser, getFollowingList, getFollowingPost, getNotFollowingUser, getRecentPosts, getSavePost, getSpecificUser, getSpecificUserPost, likePost, savePost, searchUser, signInAccount, signOutAccount, unFollowUser, updatePost, uploadProfilePicture } from '../appwrite/api'
+import { createPost, createUserAccount, deletePost, deleteSavePost, followUser, getFollowingList, getFollowingPost, getNotFollowingUser, getRecentPosts, getSavePost, getSpecificUser, getSpecificUserPost, likePost, savePost, searchUser, signInAccount, signOutAccount, unFollowUser, updatePost, uploadProfilePicture } from '../appwrite/api'
 import { INewUser } from '@/types'
 import { QUERY_KEYS } from './keys'
 import { Models } from 'appwrite'
@@ -185,7 +184,7 @@ export const useFollowUser = (userID: string) => {
     })
 }
 
-export const useUnfollowUser = (userID) => {
+export const useUnfollowUser = (userID: string) => {
     const queryClient = useQueryClient()
 
     return useMutation({
