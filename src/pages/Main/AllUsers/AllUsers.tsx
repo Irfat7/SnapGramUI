@@ -2,6 +2,7 @@ import UserCard from '../Shared/UserCard';
 import { useGetNotFollowingUser } from '@/lib/react-query/queriesAndMutation';
 import { AuthContext } from '@/Context/AuthProvider';
 import UserSkeleton from '@/components/skeletons/UserSkeleton';
+import { useContext } from 'react';
 
 const AllUsers = () => {
     const { user } = useContext(AuthContext)

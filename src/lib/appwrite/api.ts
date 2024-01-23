@@ -181,9 +181,12 @@ export const uploadProfilePicture = async (profilePic: FileList, userID: string)
     }
 }
 
-export const createPost = async (post: { userID: string, caption: string, tags: string, file: File[] }) => {
+export const createPost = async (post: { userID: string, caption: string, tags: string, file: File[] | string }) => {
     try {
         //image upload
+        if(typeof post.file === 'string'){
+            return 1
+        }
         const uploadedImage = await uploadImage(post.file[0])
 
         if (!uploadedImage) throw Error

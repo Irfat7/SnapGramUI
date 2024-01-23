@@ -39,7 +39,7 @@ export const useCreateNewPost = () => {
             userID: string,
             caption: string,
             tags: string,
-            file: File[]
+            file: File[] | string
         }) => createPost(post),
         onSuccess: () => queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.GET_RECENT_POSTS]
