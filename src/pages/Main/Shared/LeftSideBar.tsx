@@ -21,6 +21,8 @@ const LeftSideBar = () => {
         }
     }, [signOutComplete])
 
+    typeof user.imageURL === 'string' ? user.imageURL : JSON.stringify(user.imageURL)
+
     return (
         <div className='hidden md:block md:sticky md:left-0 md:top-0 h-screen md:w-2/6 lg:w-1/4 bg-dark-2 space-y-8 px-10 py-8'>
             <img src={logo} width={130} height={325} alt="snapgram logo" />
@@ -28,7 +30,7 @@ const LeftSideBar = () => {
 
             {
                 isLoading ? '1234' : <Link to={`/profile/${user.id}`} className='flex items-center gap-2'>
-                    <img src={JSON.stringify(user.imageURL)} className='object-cover w-14 h-14 rounded-full' alt="user profile image" />
+                    <img src={typeof user.imageURL === 'string' ? user.imageURL : JSON.stringify(user.imageURL)} className='object-cover w-14 h-14 rounded-full' alt="user profile image" />
                     <div className='h-12'>
                         <p className='body-bold'>{user.name}</p>
                         <p className='small-regular text-light-3'>{user.userName}</p>
