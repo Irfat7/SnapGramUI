@@ -5,7 +5,7 @@ import { Label } from '@radix-ui/react-label';
 import FileUploader from './FileUploader';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IPost } from '@/types';
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useCreateNewPost, useUpdatePost } from '@/lib/react-query/queriesAndMutation';
 import { AuthContext } from '@/Context/AuthProvider';
 import { useToast } from '@/components/ui/use-toast';
@@ -17,7 +17,7 @@ interface PostFormProps {
     setEditOpen?: React.Dispatch<React.SetStateAction<boolean | undefined>>;
 }
 
-const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen}) => {
+const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen }) => {
 
     const {
         register,
@@ -31,9 +31,11 @@ const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen}) => {
     const { toast } = useToast()
     const navigate = useNavigate()
 
-    if (isUpdatingSuccess && setEditOpen) {
-        setEditOpen(false)
-    }
+    useEffect(() => {
+        if (isUpdatingSuccess && setEditOpen) {
+            setEditOpen(false)
+        }
+    }, [isUpdatingSuccess, setEditOpen])
 
     const onSubmit: SubmitHandler<IPost> = async (data) => {
         if (isCreatingNewPost || isUpdatingPost) {
