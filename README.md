@@ -145,16 +145,13 @@ Open cmd and run the following commands one by one
 ```
 ## Screenshots
 
-![App Screenshot](./public/ss/signin.png)
 
-![App Screenshot](./public/ss/signup.png)
-
-![App Screenshot](./public/ss/home.png)
-
-![App Screenshot](./public/ss/explore.png)
-
-![App Screenshot](./public/ss/people.png)
-
-![App Screenshot](./public/ss/picmodal.png)
-
-![App Screenshot](./public/ss/editmodal.png)
+<div style="display: grid; grid-template-columns:repeat(2, 1fr); gap-20px">
+  <img src="./public/ss/signin.png" alt="Sign In Screenshot" width="400" height="auto"/>
+  <img src="./public/ss/signup.png" alt="Sign Up Screenshot" width="400" height="auto"/>
+  <img src="./public/ss/home.png" alt="Sign In Screenshot" width="400" height="auto"/>
+  <img src="./public/ss/explore.png" alt="Sign Up Screenshot" width="400" height="auto"/>
+  <img src="./public/ss/people.png" alt="Sign In Screenshot" width="400" height="auto"/>
+  <img src="./public/ss/picmodal.png" alt="Sign Up Screenshot" width="400" height="auto"/>
+  <img src="./public/ss/editmodal.png" alt="Sign In Screenshot" width="400" height="auto"/>
+</div>
