@@ -207,3 +207,9 @@ Open cmd and run the following commands one by one
   <img src="./public/ss/picmodal.png" alt="Sign Up Screenshot" width="400" height="auto"/>
   <img src="./public/ss/editmodal.png" alt="Sign In Screenshot" width="400" height="auto"/>
 </div>
+
+
+## Credits
+[JavaScript Mastery](https://www.youtube.com/@javascriptmastery)
+
+**Acknowledgements:** Based on JavaScript Mastery's Project [Link](https://www.youtube.com/watch?v=_W3R2VwRyF4).
