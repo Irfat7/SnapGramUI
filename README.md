@@ -150,9 +150,9 @@ To run this project, you will need to add the following environment variables to
 ## Setup
 
 1. Create a web project in appwrite.
-2. Set the VITE_APPWRITE_URL using the api endpoint given by appwrite.
-3. Set the VITE_APPWRITE_USER_ID using the project id given by appwrite.
-4. Create a appwrite storage, database and use the id as VITE_APPWRITE_STORAGE_ID, VITE_APPWRITE_DATABASE_ID.
+2. Set the `VITE_APPWRITE_URL` using the api endpoint given by appwrite.
+3. Set the `VITE_APPWRITE_USER_ID` using the project id given by appwrite.
+4. Create a appwrite storage, database and use the id as `VITE_APPWRITE_STORAGE_ID`, `VITE_APPWRITE_DATABASE_ID`.
 5. Create four collection named users, posts, saves, follow having the following properties:
 
 <div style="display: grid; grid-template-columns:repeat(2, 1fr); gap-20px">
@@ -174,7 +174,7 @@ To run this project, you will need to add the following environment variables to
   </div>
 </div>
 
-6. use their ids as VITE_APPWRITE_SAVES_COLLECTION_ID, VITE_APPWRITE_POSTS_COLLECTION_ID, VITE_APPWRITE_USERS_COLLECTION_ID, VITE_APPWRITE_FOLLOW_COLLECTION_ID.
+6. use their ids as `VITE_APPWRITE_SAVES_COLLECTION_ID, VITE_APPWRITE_POSTS_COLLECTION_ID, VITE_APPWRITE_USERS_COLLECTION_ID, VITE_APPWRITE_FOLLOW_COLLECTION_ID`.
 
 ## Installation
 
