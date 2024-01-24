@@ -62,7 +62,7 @@ const SignUp = () => {
         }
         else {
             return toast({
-                title: "Sign in failed! checkAuthUser error! please try again",
+                title: "Sign in failed! please try again",
                 className: 'bg-rose-600'
             })
         }

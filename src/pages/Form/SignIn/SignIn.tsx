@@ -22,11 +22,11 @@ const SignIn = () => {
 
     const onSubmit: SubmitHandler<INewUser> = async (data) => {
         const currentUser = await signInUser(data)
-        if(currentUser){
+        if (currentUser) {
             setAuthenticated(true)
             navigate('/')
         }
-        else{
+        else {
             return toast({
                 title: "Invalid email or password",
                 className: 'bg-rose-600'

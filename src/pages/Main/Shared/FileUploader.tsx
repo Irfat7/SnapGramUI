@@ -8,7 +8,7 @@ const FileUploader = ({ setFile, prevFileURL = '' }: { setFile: React.Dispatch<R
     const onDrop = useCallback((acceptedFiles: File[]) => {
         setFile(acceptedFiles)
         setFileURL(URL.createObjectURL(acceptedFiles[0]))
-    }, [])
+    }, [setFile])
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,

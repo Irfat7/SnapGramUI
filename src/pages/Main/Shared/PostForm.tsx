@@ -34,6 +34,10 @@ const PostForm: React.FC<PostFormProps> = ({ post = null, setEditOpen }) => {
     useEffect(() => {
         if (isUpdatingSuccess && setEditOpen) {
             setEditOpen(false)
+            toast({
+                title: "Update completed! please refresh/reroute to show the effect",
+                className: 'bg-black'
+            })
         }
     }, [isUpdatingSuccess, setEditOpen])
 

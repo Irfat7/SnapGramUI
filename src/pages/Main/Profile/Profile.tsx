@@ -46,7 +46,7 @@ const Profile = () => {
         if (!validFile) {
             return toast({
                 title: "JPEG, JPG, PNG file supported only",
-                className: 'bg-rose-600'
+                className: 'bg-black'
             })
         }
 
