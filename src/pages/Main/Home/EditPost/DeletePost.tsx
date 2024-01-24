@@ -13,6 +13,8 @@ import deleteSVG from '/icons/delete.svg'
 import { useDeletePost } from "@/lib/react-query/queriesAndMutation";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/Context/AuthProvider";
 
 interface PostFormProps {
     postID: string;
@@ -21,12 +23,15 @@ interface PostFormProps {
 
 
 const DeletePost: React.FC<PostFormProps> = ({ postID, setEditOpen }) => {
-    const { mutateAsync: deletePost, isPending: isDeletingPost, isSuccess: isDeletingPostComplete } = useDeletePost()
+    const { user } = useContext(AuthContext)
+    const { mutateAsync: deletePost, isPending: isDeletingPost, isSuccess: isDeletingPostComplete } = useDeletePost(user.id)
     const navigate = useNavigate()
 
-    if (isDeletingPostComplete) {
-        setEditOpen(false)
-    }
+    useEffect(() => {
+        if (isDeletingPostComplete) {
+            setEditOpen(false)
+        }
+    }, [isDeletingPostComplete, setEditOpen])
 
     const deleteHandler = async (id: string) => {
         if (isDeletingPost) {

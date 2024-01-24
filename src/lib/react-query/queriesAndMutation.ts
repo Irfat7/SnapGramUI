@@ -47,14 +47,20 @@ export const useCreateNewPost = () => {
     })
 }
 
-export const useDeletePost = () => {
+export const useDeletePost = (userID: string) => {
     const queryClient = useQueryClient()
 
     return useMutation({
         mutationFn: async (postID: string) => deletePost(postID),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: [QUERY_KEYS.GET_RECENT_POSTS]
+                queryKey: [QUERY_KEYS.GET_RECENT_POSTS, userID]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_FOLLOWING_POSTS, userID]
+            })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.GET_SPECIFIC_USER, userID]
             })
         }
     })

@@ -184,7 +184,7 @@ export const uploadProfilePicture = async (profilePic: FileList, userID: string)
 export const createPost = async (post: { userID: string, caption: string, tags: string, file: File[] | string }) => {
     try {
         //image upload
-        if(typeof post.file === 'string'){
+        if (typeof post.file === 'string') {
             return 1
         }
         const uploadedImage = await uploadImage(post.file[0])
@@ -247,7 +247,7 @@ export const deletePost = async (postID: string) => {
 
         await deleteImage(imageID)
 
-        return deletePost
+        return deletedPost
 
     } catch (error) {
         console.log(error)
