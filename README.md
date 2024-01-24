@@ -9,6 +9,7 @@ SnapGram is a simple social media platform. User can perform the following opera
 - Follow and unfollow other users
 - Save and unsave posts
 - Change profile picture
+
 The primary purpose of this project is to:
 
 - **Learn Appwrite:** Gain hands-on experience with Appwrite and understand its features for database, authentication, storage.
@@ -25,7 +26,7 @@ The primary purpose of this project is to:
 - Tailwind CSS
 - Vite (for development)
 - GitHub (version control)
-## Dependencies
+
 ## Dependencies
 
 - **React and ReactDOM:**
@@ -84,26 +85,27 @@ The primary purpose of this project is to:
 1. **Scalability:**
   - The platform may face challenges in scaling to handle a large number of users, posts, and interactions.
 
-3. **Data Privacy:**
+2. **Data Privacy:**
 - Consideration must be given to user data privacy and compliance with data protection regulations. Clear privacy policies and mechanisms for users to control their data are essential.
 
-4. **Messaging:**
+3. **Messaging:**
 - Implementing features like instant messaging may pose additional challenges.
 
-5. **Content Moderation:**
+4. **Content Moderation:**
 - A system for content moderation is necessary to prevent inappropriate content, spam, or abusive behavior.
 
-9. **Notification System:**
+5. **Notification System:**
 - Implementing a notification system for users to receive updates on interactions may require careful design and development.
 
-10. **Limited Features:**
+6. **Limited Features:**
 - Certain advanced features found in larger social media platforms might be beyond the scope of the current project.
 
-11. **Testing and Quality Assurance:**
+7. **Testing and Quality Assurance:**
 - Comprehensive testing and quality assurance processes are crucial to identify and address issues before they reach production.
 
-12. **Hosting and Infrastructure Costs:**
+8. **Hosting and Infrastructure Costs:**
 - Depending on the user base and usage patterns, hosting and infrastructure costs may become a consideration, especially as the platform grows.
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env.local file
@@ -156,4 +158,3 @@ Open cmd and run the following commands one by one
 ![App Screenshot](./public/ss/picmodal.png)
 
 ![App Screenshot](./public/ss/editmodal.png)
-
