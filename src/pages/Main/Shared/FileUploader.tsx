@@ -25,7 +25,7 @@ const FileUploader = ({ setFile, prevFileURL = '' }: { setFile: React.Dispatch<R
                 {
                     fileURL ? (
                         <div className='flex flex-1'>
-                            <img className='rounded-md' src={fileURL} alt="" />
+                            <img className='rounded-md w-full object-contain h-[400px]' src={fileURL} alt="" />
                         </div>
                     ) : (
                         <div className=''>
