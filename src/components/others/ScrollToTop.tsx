@@ -5,10 +5,11 @@ const ScrollToTop = () => {
     const { pathname } = useLocation();
 
     useEffect(() => {
+        const scrollAmount = parseInt(localStorage.getItem(pathname) || "0")
         window.scrollTo({
-            top: 0,
+            top: scrollAmount,
             left: 0,
-            behavior: "smooth",
+            behavior: 'instant'
         });
     }, [pathname]);
 

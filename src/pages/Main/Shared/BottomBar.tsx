@@ -15,6 +15,15 @@ const BottomBar = () => {
                                 <NavLink
                                     to={link.route}
                                     className={`group`}
+                                    onClick={() => {
+                                        if (isActive) {
+                                            localStorage.setItem(pathname, '0')
+                                            window.scrollTo({
+                                                top: 0,
+                                                left: 0
+                                            })
+                                        }
+                                    }}
                                 >
                                     <img src={link.imgURL} className={`block mx-auto ${isActive && 'invert-white'} group-hover:invert-white`} />
                                     <p className='text-sm'>{link.label}</p>

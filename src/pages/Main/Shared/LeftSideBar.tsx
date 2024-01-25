@@ -17,6 +17,8 @@ const LeftSideBar = () => {
         if (signOutComplete) {
             setAuthenticated(false)
             setUser(initialUser)
+            localStorage.removeItem('/')
+            localStorage.removeItem('/explore')
             navigate('/form')
         }
     }, [signOutComplete])
@@ -47,6 +49,15 @@ const LeftSideBar = () => {
                                 <NavLink
                                     to={link.route}
                                     className={`group flex gap-4 items-center p-2 ${isActive && 'bg-primary-500'} transition hover:bg-primary-500 rounded-md`}
+                                    onClick={() => {
+                                        if (isActive) {
+                                            localStorage.setItem(pathname, '0')
+                                            window.scrollTo({
+                                                top: 0,
+                                                left: 0
+                                            })
+                                        }
+                                    }}
                                 >
                                     <img src={link.imgURL} className={`${isActive && 'invert-white'} group-hover:invert-white`} />
                                     <p className='text-xl'>{link.label}</p>

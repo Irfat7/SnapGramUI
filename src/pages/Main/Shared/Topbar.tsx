@@ -15,6 +15,8 @@ const Topbar = () => {
         if (signOutComplete) {
             setAuthenticated(false)
             setUser(initialUser)
+            localStorage.removeItem('/')
+            localStorage.removeItem('/explore')
             navigate('/form')
         }
     }, [signOutComplete])

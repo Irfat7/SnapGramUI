@@ -2,11 +2,21 @@ import ScrollToTop from '@/components/others/ScrollToTop';
 import BottomBar from '@/pages/Main/Shared/BottomBar';
 import LeftSideBar from '@/pages/Main/Shared/LeftSideBar';
 import Topbar from '@/pages/Main/Shared/Topbar';
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const Main = () => {
+    const { pathname } = useLocation()
 
-
+    useEffect(()=>{
+        localStorage.removeItem('/')
+        localStorage.removeItem('/explore')
+    },[])
+    window.onscroll = () => {
+        if (pathname === '/' || pathname === '/explore') {
+            localStorage.setItem(pathname, JSON.stringify(window.scrollY))
+        }
+    }
 
     return (
         <div className=''>
