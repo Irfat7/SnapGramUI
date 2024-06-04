@@ -1,5 +1,9 @@
 # SnapGram
 
+## Live Demo
+
+Check out the live version of SnapGram: [SnapGram Live Demo](https://snapgram-sage.vercel.app/)
+
 ## About
 
 SnapGram is a simple social media platform. User can perform the following operation:
@@ -148,8 +152,14 @@ Open cmd and run the following commands one by one
   <img src="./public/ss/editmodal.png" alt="Sign In Screenshot" width="400" height="auto"/>
 </div>
 
+## Demo Video
+
+Check out this video to see a demonstration of the key features and functionality of this project:
+
+[![Watch the video](https://img.youtube.com/vi/I_dKm8MW99s/maxresdefault.jpg)](https://youtu.be/I_dKm8MW99s)
 
 ## Credits
+
 [JavaScript Mastery](https://www.youtube.com/@javascriptmastery)
 
 **Acknowledgements:** Based on JavaScript Mastery's Project [Link](https://www.youtube.com/watch?v=_W3R2VwRyF4).
